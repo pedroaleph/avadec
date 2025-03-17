@@ -1,0 +1,18 @@
+$theme-colors: (
+    "primary": #6B5A23,
+    "secondary": #6C757D,
+    "silver": #D1CDB9,
+    "lightgray": #D4D0C7,
+    "gray": #8F8F8F,
+    "danger": #DC2525,
+    "precipitation": #7798D3,
+    "temperature": rgb(255, 63, 0),
+    "humidity": #cbbe23,
+    "wind": #f7caac,
+    "default": #E3E3E3,
+);
+
+$body-bg: #E3E3E3;
+$body-color: #635421;
+
+@import 'bootstrap/scss/bootstrap.scss';

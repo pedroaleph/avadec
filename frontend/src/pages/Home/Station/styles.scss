@@ -1,0 +1,45 @@
+.card-base {
+    padding: 16px;
+    background-color: #FFF;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.card-info {
+    width: 100%;
+    
+    @media (min-width: 992px) {
+        margin-right: 16px;
+    }
+}
+
+.chart-container {
+    height: 26vh;
+}
+
+.recharts-default-tooltip {
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, .9) !important;
+    text-align: start;
+}
+
+.recharts-tooltip-label {
+    color: #FFF;
+    font-weight: bold;
+}
+
+.recharts-tooltip-item-list {
+    font-weight: bold;
+}
+
+.unit {
+    font-size: 13px;
+}
+
+.recharts-text {
+    font-size: 13px;
+}
+
+.station-container {
+    overflow-x: hidden;
+}

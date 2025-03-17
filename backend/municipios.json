@@ -1,0 +1,302 @@
+[
+    {
+        "nome": "Alto Alegre",
+        "estacoes": [
+            {
+                "nome": "Serra do Apiaú",
+                "latitude": 2.2456,
+                "longitude": -61.4189
+            },
+            {
+                "nome": "Rio Uraricoera",
+                "latitude": 2.3125,
+                "longitude": -61.2764
+            },
+            {
+                "nome": "Vila Nova",
+                "latitude": 2.4083,
+                "longitude": -61.5122
+            }
+        ]
+    },
+    {
+        "nome": "Amajari",
+        "estacoes": [
+            {
+                "nome": "Serra do Tepequém",
+                "latitude": 3.8053,
+                "longitude": -61.3986
+            },
+            {
+                "nome": "Vila Brasil",
+                "latitude": 3.5271,
+                "longitude": -61.2553
+            },
+            {
+                "nome": "Rio Uraricoera",
+                "latitude": 3.6998,
+                "longitude": -61.0452
+            }
+        ]
+    },
+    {
+        "nome": "Boa Vista",
+        "estacoes": [
+            {
+                "nome": "Centro Cívico",
+                "latitude": 2.8235,
+                "longitude": -60.6758
+            },
+            {
+                "nome": "Passarão",
+                "latitude": 2.9876,
+                "longitude": -60.7654
+            },
+            {
+                "nome": "Paredão",
+                "latitude": 2.7843,
+                "longitude": -60.6092
+            }
+        ]
+    },
+    {
+        "nome": "Bonfim",
+        "estacoes": [
+            {
+                "nome": "Fronteira Brasil-Guiana",
+                "latitude": 3.3639,
+                "longitude": -59.8333
+            },
+            {
+                "nome": "Vila São Francisco",
+                "latitude": 3.2321,
+                "longitude": -59.9674
+            },
+            {
+                "nome": "Serra do Tucano",
+                "latitude": 3.4567,
+                "longitude": -59.7458
+            }
+        ]
+    },
+    {
+        "nome": "Cantá",
+        "estacoes": [
+            {
+                "nome": "Pedra Pintada",
+                "latitude": 2.6078,
+                "longitude": -60.6154
+            },
+            {
+                "nome": "Taboca",
+                "latitude": 2.7456,
+                "longitude": -60.7012
+            },
+            {
+                "nome": "Serra Grande",
+                "latitude": 2.6812,
+                "longitude": -60.4823
+            }
+        ]
+    },
+    {
+        "nome": "Caracaraí",
+        "estacoes": [
+            {
+                "nome": "Ilha de Maracá",
+                "latitude": 1.8273,
+                "longitude": -61.4579
+            },
+            {
+                "nome": "Vila Novo Paraíso",
+                "latitude": 1.8934,
+                "longitude": -61.3210
+            },
+            {
+                "nome": "Rio Branco",
+                "latitude": 1.7543,
+                "longitude": -61.6002
+            }
+        ]
+    },
+    {
+        "nome": "Caroebe",
+        "estacoes": [
+            {
+                "nome": "Vila Entre Rios",
+                "latitude": 0.8823,
+                "longitude": -59.6932
+            },
+            {
+                "nome": "Serra Caroebe",
+                "latitude": 1.1345,
+                "longitude": -59.7321
+            },
+            {
+                "nome": "Rio Jatapu",
+                "latitude": 0.9756,
+                "longitude": -59.8315
+            }
+        ]
+    },
+    {
+        "nome": "Iracema",
+        "estacoes": [
+            {
+                "nome": "Rio Branco",
+                "latitude": 2.1845,
+                "longitude": -61.0412
+            },
+            {
+                "nome": "Vila Nova Esperança",
+                "latitude": 2.2567,
+                "longitude": -61.1845
+            },
+            {
+                "nome": "Serra Grande",
+                "latitude": 2.3123,
+                "longitude": -61.2321
+            }
+        ]
+    },
+    {
+        "nome": "Mucajaí",
+        "estacoes": [
+            {
+                "nome": "Fazenda Esperança",
+                "latitude": 2.3105,
+                "longitude": -60.9147
+            },
+            {
+                "nome": "Serra Dourada",
+                "latitude": 2.4671,
+                "longitude": -60.8452
+            },
+            {
+                "nome": "Vila Nova",
+                "latitude": 2.5234,
+                "longitude": -60.9321
+            }
+        ]
+    },
+    {
+        "nome": "Normandia",
+        "estacoes": [
+            {
+                "nome": "Serra da Lua",
+                "latitude": 3.2567,
+                "longitude": -59.6432
+            },
+            {
+                "nome": "Vila São Raimundo",
+                "latitude": 3.1895,
+                "longitude": -59.7821
+            },
+            {
+                "nome": "Rio Tacutu",
+                "latitude": 3.3245,
+                "longitude": -59.8654
+            }
+        ]
+    },
+    {
+        "nome": "Pacaraima",
+        "estacoes": [
+            {
+                "nome": "Monte Roraima",
+                "latitude": 4.4771,
+                "longitude": -61.1472
+            },
+            {
+                "nome": "Vila Pacaraima",
+                "latitude": 4.5473,
+                "longitude": -61.0234
+            },
+            {
+                "nome": "Rio Cotingo",
+                "latitude": 4.6123,
+                "longitude": -61.1875
+            }
+        ]
+    },
+    {
+        "nome": "Rorainópolis",
+        "estacoes": [
+            {
+                "nome": "Equador Amazônico",
+                "latitude": 0.9754,
+                "longitude": -60.4298
+            },
+            {
+                "nome": "Vila Nova Colina",
+                "latitude": 1.1345,
+                "longitude": -60.2841
+            },
+            {
+                "nome": "Rio Anauá",
+                "latitude": 1.0432,
+                "longitude": -60.5327
+            }
+        ]
+    },
+    {
+        "nome": "São João da Baliza",
+        "estacoes": [
+            {
+                "nome": "Serra da Baliza",
+                "latitude": 0.9512,
+                "longitude": -59.9094
+            },
+            {
+                "nome": "Rio Jatapu",
+                "latitude": 1.1123,
+                "longitude": -59.8432
+            },
+            {
+                "nome": "Vila Jundiá",
+                "latitude": 1.0023,
+                "longitude": -59.7651
+            }
+        ]
+    },
+    {
+        "nome": "São Luiz",
+        "estacoes": [
+            {
+                "nome": "Vila São Luiz",
+                "latitude": 0.9123,
+                "longitude": -59.7032
+            },
+            {
+                "nome": "Rio Uraricoera",
+                "latitude": 1.0205,
+                "longitude": -59.8142
+            },
+            {
+                "nome": "Serra Jundiá",
+                "latitude": 0.9832,
+                "longitude": -59.7214
+            }
+        ]
+    },
+    {
+        "nome": "Uiramutã",
+        "estacoes": [
+            {
+                "nome": "Serra do Sol",
+                "latitude": 4.6365,
+                "longitude": -60.1632
+            },
+            {
+                "nome": "Cachoeira do Urucá",
+                "latitude": 4.7543,
+                "longitude": -60.2932
+            },
+            {
+                "nome": "Monte Caburaí",
+                "latitude": 5.2512,
+                "longitude": -60.1584
+            }
+        ]
+    }
+]

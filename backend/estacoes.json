@@ -1,0 +1,272 @@
+[
+    {
+        "nome": "Centro da Cidade",
+        "latitude": 2.8238,
+        "longitude": -60.6756,
+        "municipio": "Boa Vista"
+    },
+    {
+        "nome": "Encontro das Águas",
+        "latitude": 2.9000,
+        "longitude": -60.7500,
+        "municipio": "Boa Vista"
+    },
+    {
+        "nome": "Margem do Rio Branco",
+        "latitude": 2.7500,
+        "longitude": -60.6000,
+        "municipio": "Boa Vista"
+    },
+    {
+        "nome": "Portal do Sol",
+        "latitude": 3.0000,
+        "longitude": -61.3500,
+        "municipio": "Alto Alegre"
+    },
+    {
+        "nome": "Cachoeira Escondida",
+        "latitude": 2.9500,
+        "longitude": -61.3000,
+        "municipio": "Alto Alegre"
+    },
+    {
+        "nome": "Vento Norte",
+        "latitude": 3.0500,
+        "longitude": -61.4000,
+        "municipio": "Alto Alegre"
+    },
+    {
+        "nome": "Pé do Monte Roraima",
+        "latitude": 3.7000,
+        "longitude": -61.4000,
+        "municipio": "Amajari"
+    },
+    {
+        "nome": "Floresta Amazônica",
+        "latitude": 3.6000,
+        "longitude": -61.3000,
+        "municipio": "Amajari"
+    },
+    {
+        "nome": "Rio Uraricoera",
+        "latitude": 3.6500,
+        "longitude": -61.5000,
+        "municipio": "Amajari"
+    },
+    {
+        "nome": "Portal da Paz",
+        "latitude": 3.4000,
+        "longitude": -59.9000,
+        "municipio": "Bonfim"
+    },
+    {
+        "nome": "Fronteira da Harmonia",
+        "latitude": 3.3500,
+        "longitude": -59.8500,
+        "municipio": "Bonfim"
+    },
+    {
+        "nome": "Céu Azul",
+        "latitude": 3.5000,
+        "longitude": -59.8500,
+        "municipio": "Bonfim"
+    },
+    {
+        "nome": "Vale do Cantá",
+        "latitude": 2.6500,
+        "longitude": -60.6500,
+        "municipio": "Cantá"
+    },
+    {
+        "nome": "Montanhas Douradas",
+        "latitude": 2.7000,
+        "longitude": -60.7000,
+        "municipio": "Cantá"
+    },
+    {
+        "nome": "Rio Urubu",
+        "latitude": 2.6000,
+        "longitude": -60.5500,
+        "municipio": "Cantá"
+    },
+    {
+        "nome": "Encontro dos Rios",
+        "latitude": 1.8500,
+        "longitude": -61.2000,
+        "municipio": "Caracaraí"
+    },
+    {
+        "nome": "Coração da Selva",
+        "latitude": 1.9000,
+        "longitude": -61.1000,
+        "municipio": "Caracaraí"
+    },
+    {
+        "nome": "Rio Anauá",
+        "latitude": 1.8000,
+        "longitude": -61.1500,
+        "municipio": "Caracaraí"
+    },
+    {
+        "nome": "Biodiversidade Viva",
+        "latitude": 0.9000,
+        "longitude": -59.7500,
+        "municipio": "Caroebe"
+    },
+    {
+        "nome": "Rio Jauaperi",
+        "latitude": 0.9500,
+        "longitude": -59.8000,
+        "municipio": "Caroebe"
+    },
+    {
+        "nome": "Vida Selvagem",
+        "latitude": 0.8500,
+        "longitude": -59.7000,
+        "municipio": "Caroebe"
+    },
+    {
+        "nome": "Lago da Serenidade",
+        "latitude": 2.2000,
+        "longitude": -61.1000,
+        "municipio": "Iracema"
+    },
+    {
+        "nome": "Rio Tacutu",
+        "latitude": 2.1500,
+        "longitude": -61.0500,
+        "municipio": "Iracema"
+    },
+    {
+        "nome": "Serra do Tepequém",
+        "latitude": 2.2500,
+        "longitude": -61.1500,
+        "municipio": "Iracema"
+    },
+    {
+        "nome": "Cachoeira do Bem-Querer",
+        "latitude": 2.5000,
+        "longitude": -61.0000,
+        "municipio": "Mucajaí"
+    },
+    {
+        "nome": "Floresta Encantada",
+        "latitude": 2.4500,
+        "longitude": -60.9500,
+        "municipio": "Mucajaí"
+    },
+    {
+        "nome": "Rio Mucajaí",
+        "latitude": 2.4000,
+        "longitude": -60.9000,
+        "municipio": "Mucajaí"
+    },
+    {
+        "nome": "Monte Caburaí",
+        "latitude": 4.5000,
+        "longitude": -60.2000,
+        "municipio": "Normandia"
+    },
+    {
+        "nome": "Fronteira do Norte",
+        "latitude": 4.4500,
+        "longitude": -60.2500,
+        "municipio": "Normandia"
+    },
+    {
+        "nome": "Vale do Cotingo",
+        "latitude": 4.4000,
+        "longitude": -60.1500,
+        "municipio": "Normandia"
+    },
+    {
+        "nome": "Serra do Pacaraima",
+        "latitude": 4.4000,
+        "longitude": -61.1000,
+        "municipio": "Pacaraima"
+    },
+    {
+        "nome": "Mirante da Neblina",
+        "latitude": 4.4500,
+        "longitude": -61.0500,
+        "municipio": "Pacaraima"
+    },
+    {
+        "nome": "Vale da Lua",
+        "latitude": 4.5000,
+        "longitude": -61.0000,
+        "municipio": "Pacaraima"
+    },
+    {
+        "nome": "Rio Anauá",
+        "latitude": 1.0000,
+        "longitude": -60.5000,
+        "municipio": "Rorainópolis"
+    },
+    {
+        "nome": "Floresta Tropical",
+        "latitude": 0.9500,
+        "longitude": -60.4500,
+        "municipio": "Rorainópolis"
+    },
+    {
+        "nome": "Rio Branco Sul",
+        "latitude": 1.0500,
+        "longitude": -60.5500,
+        "municipio": "Rorainópolis"
+    },
+    {
+        "nome": "Cachoeira do Gavião",
+        "latitude": 1.0000,
+        "longitude": -59.9500,
+        "municipio": "São João da Baliza"
+    },
+    {
+        "nome": "Vida no Cerrado",
+        "latitude": 0.9000,
+        "longitude": -59.8500,
+        "municipio": "São João da Baliza"
+    },
+    {
+        "nome": "Rio Jauaperi",
+        "latitude": 1.1000,
+        "longitude": -59.9000,
+        "municipio": "São João da Baliza"
+    },
+    {
+        "nome": "Rio Surumu",
+        "latitude": 1.0500,
+        "longitude": -60.2000,
+        "municipio": "São Luiz"
+    },
+    {
+        "nome": "Cachoeira da Harmonia",
+        "latitude": 1.1000,
+        "longitude": -60.1500,
+        "municipio": "São Luiz"
+    },
+    {
+        "nome": "Serra da Lua",
+        "latitude": 0.9500,
+        "longitude": -60.2500,
+        "municipio": "São Luiz"
+    },
+    {
+        "nome": "Monte Roraima",
+        "latitude": 4.7000,
+        "longitude": -60.3000,
+        "municipio": "Uiramutã"
+    },
+    {
+        "nome": "Fronteira da Venezuela",
+        "latitude": 4.6500,
+        "longitude": -60.3500,
+        "municipio": "Uiramutã"
+    },
+    {
+        "nome": "Vale do Cotingo",
+        "latitude": 4.6000,
+        "longitude": -60.2500,
+        "municipio": "Uiramutã"
+    }
+]

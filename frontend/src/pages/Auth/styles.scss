@@ -1,0 +1,23 @@
+.auth-container {
+    margin: 10% auto;
+}
+
+.form-control {
+    background-color: #e3e3e3;
+    font-weight: 500;
+}
+
+.form-control:focus {
+    background-color: #f2f2f2;
+    box-shadow: 0 0 0 0.25rem #afa68b;
+	border: 1px solid #635421;
+}
+
+.alert {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+}

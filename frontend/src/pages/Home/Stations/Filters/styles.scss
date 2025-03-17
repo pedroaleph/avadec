@@ -1,0 +1,63 @@
+.btn-station {
+    font-weight: 500;
+    width: 100%;
+    border-radius: 0;
+    padding: 10px 16px;
+}
+
+.filters-container {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    background-color: #F2F2F2;
+    transition: all .4s;
+    height: 100%;
+    border: 1px solid var(--bs-secondary);
+    border-top: none;
+}
+
+.btn-expand, .btn-expand:hover {
+    padding: 2px;
+    border-radius: 0;
+    border: none;
+    border-left: 1px solid var(--bs-secondary);
+}
+
+.filters-content {
+    width: 320px;
+}
+
+.filter-states, .filter-stations {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 194px);
+    overflow: auto;
+    padding-left: 16px;
+    margin-bottom: 12px;
+}
+
+.btn-filter {
+    border-radius: 0;
+    width: 100%;
+    font-size: 14px;
+}
+
+.btn-offline, .btn-offline:hover {
+    color: #FFF;
+    background-color: #F7CAAC;
+}
+
+.btn-online, .btn-online:hover {
+    color: #FFF;
+    background-color: #7798D3;
+}
+
+.btn-embrapa, .btn-embrapa:hover {
+    color: #FFF;
+    background-color: #5E903C;
+}
+
+.form-control {
+    border-radius: 0;
+}
