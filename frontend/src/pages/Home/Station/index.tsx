@@ -70,7 +70,7 @@ const StationSelected = ({
 
     useEffect(() => {
         if(station) {
-            const end = new Date(station.data);
+            const end = new Date(station.termino);
             const start = getStartByPeriod(period, end);
             const path = `/daily-data/${stationId}`;
             const currentPeriod = timePeriodDict[period];
@@ -90,10 +90,10 @@ const StationSelected = ({
 
     useEffect(() => {
         if(station) {
-            const inicio = new Date(station.dataIni).toLocaleDateString();
-            const fim = new Date(station.data).toLocaleDateString();
+            const inicio = new Date(station.inicio).toLocaleDateString();
+            const termino = new Date(station.termino).toLocaleDateString();
 
-            const period = inicio + ' - ' + fim;
+            const period = inicio + ' - ' + termino;
 
             setHeaderTitle({ name: station.nome_modulo, period });
         }

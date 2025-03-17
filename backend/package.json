@@ -8,10 +8,9 @@
     "express": "^4.21.2",
     "mongodb": "^6.13.1"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "node src/index.js",
-    "populate": "node src/index.js",
+    "populate": "node src/populate.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

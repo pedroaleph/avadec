@@ -1,5 +1,11 @@
+const constants = require("./constants");
+
+const copy = (item) => {
+    return JSON.parse(JSON.stringify(item));
+}
+
 const transformDataByPeriod = (data, period) => {
-    const result = JSON.parse(JSON.stringify(data));
+    const result = copy(data);
     switch(period){
         case 'monthly':
             return transformByMonthly(result);
@@ -77,6 +83,12 @@ const getEvapotranspiration = (item) => {
     return ET;
 };
 
+const getStationPipeline = () => {
+    return copy(constants.stationPipeline);
+}
+
 module.exports = {
-    transformDataByPeriod
+    copy,
+    transformDataByPeriod,
+    getStationPipeline
 };

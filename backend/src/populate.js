@@ -49,12 +49,7 @@ estacoes.forEach((estacao, index) => {
     estacao.modulo_id = index + 1;
     estacao.nome_modulo = estacao.nome;
     delete estacao.nome;
-    estacao.dataIni = umAnoAtras;
-    estacao.data = new Date(
-        hoje.getFullYear(),
-        hoje.getMonth(),
-        hoje.getDate() - 1,
-    );
+    estacao.tipo = 'estacao';
     estacao.online = 1;
 });
 
@@ -144,11 +139,11 @@ const uploadToMongo = async () => {
         const client = new MongoClient(connection);
         await client.connect();
 
-        await client.db().collection('estacao').drop();
-        await client.db().collection('dadosDiarios').drop();
+        await client.db().collection('modulos').drop();
+        await client.db().collection('dadosdiariosestacaos').drop();
 
-        await client.db().collection('estacao').insertMany(estacoes);
-        await client.db().collection('dadosDiarios').insertMany(dadosDiarios);
+        await client.db().collection('modulos').insertMany(estacoes);
+        await client.db().collection('dadosdiariosestacaos').insertMany(dadosDiarios);
 
         await client.close();
     } catch (error) {

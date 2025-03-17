@@ -53,10 +53,12 @@ const getMax = (stationVar: StationVar, items: DailyData[], maxLimit: number) =>
             const truncatedValue = Math.trunc(value);
             const valueLength = truncatedValue.toString().length;
     
-            const powerOfTen = Math.pow(10, valueLength);
+            const powerOfTen = Math.pow(10, valueLength - 1);
             const integerPart = Math.trunc(truncatedValue / powerOfTen);
     
-            return integerPart * powerOfTen + powerOfTen;
+            const max = integerPart * powerOfTen + powerOfTen;
+
+            return max;
         }
     }
 

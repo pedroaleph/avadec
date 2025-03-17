@@ -11,8 +11,8 @@ export interface Station {
     gestor: string,
     tipo: string,
     online: StationType,
-    dataIni: string | Date,
-    data: string | Date
+    inicio: string | Date,
+    termino: string | Date
 }
 
 export interface OnlineData {
