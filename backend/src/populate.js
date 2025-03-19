@@ -132,7 +132,7 @@ const dadosDiarios = estacoes.reduce((dados, estacao) => {
     return dados.concat(dadosDaEstacao);
 }, []);
 
-const connection = process.env.MONGODB_CONNECTION_TEST ?? 'mongodb://localhost:27017/teste';
+const connection = process.env.MONGODB_CONNECTION_TEST ?? 'mongodb+srv://mepa:teste123@test.zaom6.mongodb.net/test?retryWrites=true&w=majority&appName=Test';
 
 const uploadToMongo = async () => {
     try {
