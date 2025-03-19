@@ -44,8 +44,13 @@
     overflow-x: hidden;
 }
 
+.go-back .btn,
 .period-buttons .btn {
     padding: 5px 11px;
+
+    &-primary {
+        padding: 4.5px 11px;
+    }
 }
 
 @media (max-width: 576px) {
@@ -53,5 +58,9 @@
     .period-buttons,
     .period-buttons .btn {
         font-size: 14px;
+    }
+
+    .period-buttons .btn-primary {
+        padding: 6px 11px;
     }
 }
