@@ -17,6 +17,7 @@ const getStations = async (req, res) => {
             .db()
             .collection('modulos')
             .aggregate(pipeline)
+            .sort({ modulo_id: 1 })
             .toArray();
 
         return res.send(itens);
@@ -43,7 +44,8 @@ const getOneStation = async (req, res) => {
         const item = await dataSource
             .db()
             .collection('modulos')
-            .aggregate(pipeline).toArray();
+            .aggregate(pipeline)
+            .toArray();
 
         return res.send(item[0]);
     } catch (error) {
@@ -76,6 +78,7 @@ const getDailyData = async (req, res) => {
             .db()
             .collection('dadosdiariosestacaos')
             .find(conditions)
+            .sort({ data: 1 })
             .toArray();
 
         const result = utils.transformDataByPeriod(item, period);
