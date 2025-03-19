@@ -10,7 +10,7 @@ interface MapboxGLWithWorker {
     workerClass?: typeof Worker;
 }
 
-(mapboxgl as MapboxGLWithWorker).workerClass = require('mapbox-gl/dist/mapbox-gl-csp-worker').default;
+(mapboxgl as MapboxGLWithWorker).workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default; // eslint-disable-line
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY ?? '';
 
 interface Props {
