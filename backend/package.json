@@ -11,8 +11,7 @@
   "scripts": {
     "start": "node src/index.js",
     "populate": "node src/populate.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "npm install && npm start"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC"
