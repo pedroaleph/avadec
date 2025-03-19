@@ -6,6 +6,11 @@ import { Station } from 'core/utils/models';
 import { useNavigate } from 'react-router-dom';
 import Filters from './Filters';
 
+interface MapboxGLWithWorker {
+    workerClass?: typeof Worker;
+}
+
+(mapboxgl as MapboxGLWithWorker).workerClass = require('mapbox-gl/dist/mapbox-gl-csp-worker').default;
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY ?? '';
 
 interface Props {
