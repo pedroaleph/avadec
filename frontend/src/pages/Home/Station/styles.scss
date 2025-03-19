@@ -43,3 +43,15 @@
 .station-container {
     overflow-x: hidden;
 }
+
+.period-buttons .btn {
+    padding: 5px 11px;
+}
+
+@media (max-width: 576px) {
+    .go-back,
+    .period-buttons,
+    .period-buttons .btn {
+        font-size: 14px;
+    }
+}

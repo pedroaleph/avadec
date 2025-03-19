@@ -102,10 +102,10 @@ const StationSelected = ({
     return (
         <div className="w-100 position-relative">
             <div className="px-3 d-flex align-items-center flex-wrap pb-1 position-sticky top-0 z-1 bg-default border-primary border-bottom">
-                <div className="py-2">
+                <div className="py-2 go-back">
                     <GoBack path='/stations' />
                 </div>
-                <div className="ms-auto py-2">
+                <div className="ms-auto py-2 period-buttons">
                     <PeriodButtons period={period} setPeriod={setPeriod} />
                 </div>
             </div>
