@@ -5,17 +5,19 @@ import request from 'core/utils/request';
 import { Station } from 'core/utils/models';
 import { useNavigate } from 'react-router-dom';
 import Filters from './Filters';
+import Loading from 'core/components/Loading';
 
 interface MapboxGLWithWorker {
     workerClass?: typeof Worker;
 }
 
-(mapboxgl as MapboxGLWithWorker).workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default; // eslint-disable-line
+(mapboxgl as MapboxGLWithWorker).workerClass =
+    require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default; // eslint-disable-line
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY ?? '';
 
 interface Props {
     setStationId: (value: string) => void;
-    setHeaderTitle: (value: { name: string, period?: string }) => void;
+    setHeaderTitle: (value: { name: string; period?: string }) => void;
 }
 
 const Stations = ({ setStationId, setHeaderTitle }: Props) => {
@@ -25,8 +27,9 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
     const [lat, setLat] = useState(2.8307);
     const [zoom, setZoom] = useState(6.0);
     const [mapStyle, setMapStyle] = useState('streets-v11');
-    const [stations, setStations] = useState<Station[]>([]);
+    const [stations, setStations] = useState<Station[]>();
     const [markers, setMarkes] = useState<mapboxgl.Marker[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -53,7 +56,7 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
             });
             setMap(map);
         }
-    }, [lat, lng, zoom, map, mapStyle, stations.length]);
+    }, [lat, lng, zoom, map, mapStyle, stations?.length]);
 
     useEffect(() => {
         map && map.setStyle(`mapbox://styles/mapbox/${mapStyle}`);
@@ -69,12 +72,17 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
     }, [map]);
 
     useEffect(() => {
-        if (!map || stations.length) {
+        if (!map || stations) {
             return;
         }
 
+        setIsLoading(true);
         request.get('/stations').then((res) => {
             setStations(res.data);
+        }).catch(() => {
+            setStations([]);
+        }).finally(() => {
+            setIsLoading(false);
         });
     }, [stations, map]);
 
@@ -82,7 +90,7 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
         if (markers.length) {
             return;
         }
-        if (map && stations.length) {
+        if (map && stations?.length) {
             const markers = stations.map((station) => {
                 const el = document.createElement('div');
                 el.className = `marker marker-${station.online}`;
@@ -94,14 +102,14 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
                 const marker = new mapboxgl.Marker({ element: el })
                     .setLngLat([lng, lat])
                     .setPopup(
-                        new mapboxgl.Popup().setHTML(
-                            `<h6 class="fw-bold mb-0">
+                        new mapboxgl.Popup().setHTML(`
+                            <h6 class="fw-bold mb-0">
                                 ${station.nome_modulo}
                             </h6>
                             <button type="button" id="btn-station" class="btn btn-primary material-icons p-1">
                                 chevron_right
-                            </button>`
-                        )
+                            </button>
+                        `)
                     )
                     .addTo(map);
 
@@ -127,45 +135,48 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
     }, [map, stations, markers, navigate]);
 
     return (
-        <div className="stations-container">
-            <Filters stations={stations} map={map} markers={markers} />
-            <div
-                className="w-100 position-relative h-100"
-            >
-                <div className="position-absolute bottom-0 top-0 start-0 end-0">
-                    <div
-                        ref={mapContainer}
-                        className="map-container border border-1 border-primary"
-                    />
-                    <div className="map-coordinates">
-                        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-                    </div>
-                    <div className="map-style">
-                        <button
-                            type="button"
-                            className="map-streets btn btn-offline"
-                            onClick={() => setMapStyle('streets-v11')}
-                        >
-                            estradas
-                        </button>
-                        <button
-                            type="button"
-                            className="map-dark btn btn-secondary"
-                            onClick={() => setMapStyle('dark-v10')}
-                        >
-                            escuro
-                        </button>
-                        <button
-                            type="button"
-                            className="map-satellite btn btn-embrapa"
-                            onClick={() => setMapStyle('satellite-v9')}
-                        >
-                            satélite
-                        </button>
+        <>
+            <div className={isLoading ? 'd-block' : 'd-none'}>
+                <Loading />
+            </div>
+            <div className={isLoading ? 'd-none' : 'stations-container'}>
+                { stations && <Filters stations={stations} map={map} markers={markers} /> }
+                <div className="w-100 position-relative h-100">
+                    <div className="position-absolute bottom-0 top-0 start-0 end-0">
+                        <div
+                            ref={mapContainer}
+                            className="map-container border border-1 border-primary"
+                        />
+                        <div className="map-coordinates">
+                            Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+                        </div>
+                        <div className="map-style">
+                            <button
+                                type="button"
+                                className="map-streets btn btn-offline"
+                                onClick={() => setMapStyle('streets-v11')}
+                            >
+                                estradas
+                            </button>
+                            <button
+                                type="button"
+                                className="map-dark btn btn-secondary"
+                                onClick={() => setMapStyle('dark-v10')}
+                            >
+                                escuro
+                            </button>
+                            <button
+                                type="button"
+                                className="map-satellite btn btn-embrapa"
+                                onClick={() => setMapStyle('satellite-v9')}
+                            >
+                                satélite
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

@@ -115,6 +115,11 @@ const Filters = ({ stations, map, markers }: Props) => {
                                 />
                             </div>
                             <div className="filter-stations">
+                                { 
+                                    !stations.length && (
+                                        <p className='text-start ps-2 ms-1'>Não há estações disponíveis.</p>
+                                    )
+                                }
                                 {stations
                                     .filter((station) => {
                                         return (
@@ -149,7 +154,8 @@ const Filters = ({ stations, map, markers }: Props) => {
                                         >
                                             <span>{station.nome_modulo}</span>
                                         </button>
-                                    ))}
+                                    )
+                                )}
                             </div>
                         </div>
                         <div className="mb-3 border border-primary pt-3 px-2 d-none">
