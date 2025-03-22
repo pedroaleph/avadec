@@ -5,7 +5,6 @@ import request from 'core/utils/request';
 import { Station } from 'core/utils/models';
 import { useNavigate } from 'react-router-dom';
 import Filters from './Filters';
-import Loading from 'core/components/Loading';
 
 interface MapboxGLWithWorker {
     workerClass?: typeof Worker;
@@ -77,13 +76,17 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
         }
 
         setIsLoading(true);
-        request.get('/stations').then((res) => {
-            setStations(res.data);
-        }).catch(() => {
-            setStations([]);
-        }).finally(() => {
-            setIsLoading(false);
-        });
+        request
+            .get('/stations')
+            .then((res) => {
+                setStations(res.data);
+            })
+            .catch(() => {
+                setStations([]);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }, [stations, map]);
 
     useEffect(() => {
@@ -135,48 +138,45 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
     }, [map, stations, markers, navigate]);
 
     return (
-        <>
-            <div className={isLoading ? 'd-block' : 'd-none'}>
-                <Loading />
-            </div>
-            <div className={isLoading ? 'd-none' : 'stations-container'}>
-                { stations && <Filters stations={stations} map={map} markers={markers} /> }
-                <div className="w-100 position-relative h-100">
-                    <div className="position-absolute bottom-0 top-0 start-0 end-0">
-                        <div
-                            ref={mapContainer}
-                            className="map-container border border-1 border-primary"
-                        />
-                        <div className="map-coordinates">
-                            Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-                        </div>
-                        <div className="map-style">
-                            <button
-                                type="button"
-                                className="map-streets btn btn-offline"
-                                onClick={() => setMapStyle('streets-v11')}
-                            >
-                                estradas
-                            </button>
-                            <button
-                                type="button"
-                                className="map-dark btn btn-secondary"
-                                onClick={() => setMapStyle('dark-v10')}
-                            >
-                                escuro
-                            </button>
-                            <button
-                                type="button"
-                                className="map-satellite btn btn-embrapa"
-                                onClick={() => setMapStyle('satellite-v9')}
-                            >
-                                satélite
-                            </button>
-                        </div>
+        <div className="stations-container">
+            {stations && (
+                <Filters stations={stations} map={map} markers={markers} isLoading={isLoading} />
+            )}
+            <div className="w-100 position-relative h-100">
+                <div className="position-absolute bottom-0 top-0 start-0 end-0">
+                    <div
+                        ref={mapContainer}
+                        className="map-container border border-1 border-primary"
+                    />
+                    <div className="map-coordinates">
+                        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+                    </div>
+                    <div className="map-style">
+                        <button
+                            type="button"
+                            className="map-streets btn btn-offline"
+                            onClick={() => setMapStyle('streets-v11')}
+                        >
+                            estradas
+                        </button>
+                        <button
+                            type="button"
+                            className="map-dark btn btn-secondary"
+                            onClick={() => setMapStyle('dark-v10')}
+                        >
+                            escuro
+                        </button>
+                        <button
+                            type="button"
+                            className="map-satellite btn btn-embrapa"
+                            onClick={() => setMapStyle('satellite-v9')}
+                        >
+                            satélite
+                        </button>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

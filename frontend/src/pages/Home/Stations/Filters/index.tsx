@@ -3,14 +3,16 @@ import { useEffect, useState } from 'react';
 import { states } from 'pages/Home/Stations/utils';
 import mapboxgl from 'mapbox-gl';
 import './styles.scss';
+import Loading from 'core/components/Loading';
 
 interface Props {
     stations: Station[];
     map: mapboxgl.Map | null;
     markers: mapboxgl.Marker[];
+    isLoading: boolean;
 }
 
-const Filters = ({ stations, map, markers }: Props) => {
+const Filters = ({ stations, map, markers, isLoading }: Props) => {
     const [searchStation, setSearchStation] = useState('');
     const [searchState, setSearchState] = useState('');
     const [selectedType, setSelectedType] = useState<StationType>(1);
@@ -115,6 +117,9 @@ const Filters = ({ stations, map, markers }: Props) => {
                                 />
                             </div>
                             <div className="filter-stations">
+                            <div className={isLoading ? 'd-block position-relative' : 'd-none'}>
+                                <Loading />
+                            </div>
                                 { 
                                     !stations.length && (
                                         <p className='text-start ps-2 ms-1'>Não há estações disponíveis.</p>
