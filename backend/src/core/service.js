@@ -1,5 +1,6 @@
+const { stationPipeline } = require('./constants');
 const dataSource = require('./data-source');
-const utils = require('./utils');
+const { transformDataByPeriod } = require('./utils');
 
 const findStations = async () => {
     const pipeline = [
@@ -9,7 +10,7 @@ const findStations = async () => {
                 tipo: 'estacao',
             },
         },
-        ...utils.getStationPipeline(),
+        ...stationPipeline,
     ];
 
     const items = await dataSource
@@ -29,7 +30,7 @@ const findOneStation = async (id) => {
                 modulo_id: id,
             },
         },
-        ...utils.getStationPipeline(),
+        ...stationPipeline,
     ];
 
     const item = await dataSource
@@ -57,14 +58,14 @@ const findDailyData = async (id, params) => {
         }
     }
 
-    const item = await dataSource
+    const items = await dataSource
         .db()
         .collection('dadosdiariosestacaos')
         .find(conditions)
         .sort({ data: 1 })
         .toArray();
 
-    const result = utils.transformDataByPeriod(item, period);
+    const result = transformDataByPeriod(items, period);
 
     return result;
 };

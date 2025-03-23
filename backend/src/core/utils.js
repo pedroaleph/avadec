@@ -1,5 +1,3 @@
-const constants = require("./constants");
-
 const copy = (item) => {
     return JSON.parse(JSON.stringify(item));
 }
@@ -83,12 +81,7 @@ const getEvapotranspiration = (item) => {
     return ET;
 };
 
-const getStationPipeline = () => {
-    return copy(constants.stationPipeline);
-}
-
 module.exports = {
     copy,
     transformDataByPeriod,
-    getStationPipeline
 };
