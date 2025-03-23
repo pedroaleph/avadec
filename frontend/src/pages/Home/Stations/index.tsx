@@ -157,21 +157,21 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
                             className="map-streets btn btn-offline"
                             onClick={() => setMapStyle('streets-v11')}
                         >
-                            estradas
+                            Estradas
                         </button>
                         <button
                             type="button"
                             className="map-dark btn btn-secondary"
                             onClick={() => setMapStyle('dark-v10')}
                         >
-                            escuro
+                            Escuro
                         </button>
                         <button
                             type="button"
                             className="map-satellite btn btn-embrapa"
                             onClick={() => setMapStyle('satellite-v9')}
                         >
-                            satélite
+                            Satélite
                         </button>
                     </div>
                 </div>

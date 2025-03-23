@@ -1,42 +1,47 @@
 const stationPipeline = [
     {
         $lookup: {
-            from: "dadosdiariosestacaos",
-            let: { modulo_id: "$modulo_id" },
+            from: 'dadosdiariosestacaos',
+            let: { modulo_id: '$modulo_id' },
             pipeline: [
                 {
                     $match: {
-                        $expr: { $eq: ["$modulo_id", "$$modulo_id"] }
-                    }
+                        $expr: { $eq: ['$modulo_id', '$$modulo_id'] },
+                    },
                 },
                 {
-                    $sort: { data: 1 }
+                    $sort: { data: 1 },
                 },
                 {
                     $group: {
                         _id: null,
-                        inicio: { $first: "$$ROOT" },
-                        termino: { $last: "$$ROOT" }
-                    }
-                }
+                        inicio: { $first: '$$ROOT' },
+                        termino: { $last: '$$ROOT' },
+                    },
+                },
             ],
-            as: "dadosDiarios"
-        }
+            as: 'dadosDiarios',
+        },
     },
     {
-        $unwind: "$dadosDiarios"
+        $unwind: '$dadosDiarios',
     },
     {
         $addFields: {
-            inicio: "$dadosDiarios.inicio.data",
-            termino: "$dadosDiarios.termino.data"
-        }
+            inicio: '$dadosDiarios.inicio.data',
+            termino: '$dadosDiarios.termino.data',
+        },
     },
     {
         $project: {
-            dadosDiarios: 0
-        }
-    }
+            dadosDiarios: 0,
+        },
+    },
 ];
 
-module.exports = { stationPipeline };
+const statusCode = {
+    ok: 200,
+    badResquest: 400,
+};
+
+module.exports = { stationPipeline, statusCode };

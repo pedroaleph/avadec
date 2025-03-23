@@ -1,94 +1,47 @@
-const dataSource = require('./data-source');
-const utils = require('./utils');
+const { statusCode } = require('./constants');
+const service = require('./service');
 
 const getStations = async (req, res) => {
-    const pipeline = [
-        {
-            $match: {
-                online: 1,
-                tipo: 'estacao',
-            },
-        },
-        ...utils.getStationPipeline(),
-    ];
-
     try {
-        const itens = await dataSource
-            .db()
-            .collection('modulos')
-            .aggregate(pipeline)
-            .sort({ modulo_id: 1 })
-            .toArray();
+        const items = await service.findStations();
 
-        return res.send(itens);
+        res.status(statusCode.ok).send(items);
     } catch (error) {
         console.error(error);
-        return res
-            .status(400)
-            .send({ message: 'Não foi possivel buscar estações.' });
+        res.status(statusCode.badResquest).send({
+            message: 'Não foi possivel buscar estações.',
+        });
     }
 };
 
 const getOneStation = async (req, res) => {
-    const { id } = req.params;
-    const pipeline = [
-        {
-            $match: {
-                modulo_id: parseInt(id),
-            },
-        },
-        ...utils.getStationPipeline(),
-    ];
+    const id = parseInt(req.params.id);
 
     try {
-        const item = await dataSource
-            .db()
-            .collection('modulos')
-            .aggregate(pipeline)
-            .toArray();
+        const item = await service.findOneStation(id);
 
-        return res.send(item[0]);
+        res.status(statusCode.ok).send(item);
     } catch (error) {
         console.error(error);
-        return res
-            .status(400)
-            .send({ message: 'Não foi possivel buscar estação.' });
+        res.status(statusCode.badResquest).send({
+            message: 'Não foi possivel buscar estação.',
+        });
     }
 };
 
 const getDailyData = async (req, res) => {
+    const id = parseInt(req.params.id);
+    const params = req.query;
+
     try {
-        const { id } = req.params;
-        const { start, end, period } = req.query;
-        const conditions = { modulo_id: parseInt(id) };
+        const items = await service.findDailyData(id, params);
 
-        if (start || end) {
-            conditions.data = {};
-
-            if (start) {
-                conditions.data.$gte = new Date(start);
-            }
-
-            if (end) {
-                conditions.data.$lte = new Date(end);
-            }
-        }
-
-        const item = await dataSource
-            .db()
-            .collection('dadosdiariosestacaos')
-            .find(conditions)
-            .sort({ data: 1 })
-            .toArray();
-
-        const result = utils.transformDataByPeriod(item, period);
-
-        return res.send(result);
+        res.status(statusCode.ok).send(items);
     } catch (error) {
         console.error(error);
-        return res
-            .status(400)
-            .send({ message: 'Não foi possivel buscar dados diários.' });
+        res.status(statusCode.badResquest).send({
+            message: 'Não foi possivel buscar dados diários.',
+        });
     }
 };
 
