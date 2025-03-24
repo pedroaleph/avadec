@@ -84,4 +84,6 @@ const getEvapotranspiration = (item) => {
 module.exports = {
     copy,
     transformDataByPeriod,
+    transformByDaily,
+    transformByMonthly
 };
