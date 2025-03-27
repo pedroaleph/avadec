@@ -1,9 +1,8 @@
-const utils = require('../utils');
+const utils = require('../utils/utils');
 
 describe('Utils', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        jest.restoreAllMocks();
     });
 
     it('should copy a structure with same value but diffent reference', () => {
@@ -29,8 +28,4 @@ describe('Utils', () => {
         // Then
         expect(original[0].modulo_id).toBe(1);
     });
-
-    it.todo('should transform daily data by daily period');
-
-    it.todo('should transform daily data by monthly period');
 });

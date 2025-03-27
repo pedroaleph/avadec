@@ -1,10 +1,10 @@
 const service = require('../service');
 const dataSource = require('../data-source');
 const { stationPipeline } = require('../constants');
-const { transformDataByPeriod } = require('../utils');
+const { transformDataByPeriod } = require('../utils/daily-data');
 
 jest.mock('../data-source');
-jest.mock('../utils');
+jest.mock('../utils/daily-data');
 
 const mockSort = (field, data) => {
     const items = [...data];
@@ -62,7 +62,7 @@ describe('Service', () => {
         collection: jest.fn().mockReturnValue(mockCollection),
     });
 
-    afterEach(() => {
+    beforeEach(() => {
         jest.clearAllMocks();
     });
 

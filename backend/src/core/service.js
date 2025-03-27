@@ -1,6 +1,6 @@
 const { stationPipeline } = require('./constants');
 const dataSource = require('./data-source');
-const { transformDataByPeriod } = require('./utils');
+const { transformDataByPeriod } = require('./utils/daily-data');
 
 const findStations = async () => {
     const pipeline = [
