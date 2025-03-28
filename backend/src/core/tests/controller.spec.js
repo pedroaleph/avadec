@@ -48,8 +48,8 @@ describe('Controller', () => {
     it('should get one station', async () => {
         // Given
         const req = { params: { id: '1' } };
-        const data = { modulo_id: 1 };
-        service.findOneStation.mockResolvedValueOnce(data);
+        const item = { modulo_id: 1 };
+        service.findOneStation.mockResolvedValueOnce(item);
 
         // When
         await controller.getOneStation(req, res);
@@ -59,7 +59,7 @@ describe('Controller', () => {
             parseInt(req.params.id)
         );
         expect(res.status).toHaveBeenCalledWith(statusCode.ok);
-        expect(res.send).toHaveBeenCalledWith(data);
+        expect(res.send).toHaveBeenCalledWith(item);
     });
 
     it('should send bad request when error is thrown while trying to get one station', async () => {
@@ -86,8 +86,8 @@ describe('Controller', () => {
             params: { id: '1' },
             query: {},
         };
-        const data = [{ modulo_id: 1 }];
-        service.findDailyData.mockResolvedValueOnce(data);
+        const items = [{ modulo_id: 1 }];
+        service.findDailyData.mockResolvedValueOnce(items);
 
         // When
         await controller.getDailyData(req, res);
@@ -98,7 +98,7 @@ describe('Controller', () => {
             req.query
         );
         expect(res.status).toHaveBeenCalledWith(statusCode.ok);
-        expect(res.send).toHaveBeenCalledWith(data);
+        expect(res.send).toHaveBeenCalledWith(items);
     });
 
     it('should send bad request when error is thrown while trying to get one station', async () => {

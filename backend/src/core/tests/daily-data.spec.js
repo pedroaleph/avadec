@@ -61,10 +61,10 @@ describe('Daily Data', () => {
     it('should transform daily data by monthly period', () => {
         // Given
         const items = [
-            { modulo_id: 1, data: '2025-01-01T04:00:00.000Z' },
-            { modulo_id: 1, data: '2025-01-02T04:00:00.000Z' },
-            { modulo_id: 1, data: '2025-02-01T04:00:00.000Z' },
-            { modulo_id: 1, data: '2025-02-02T04:00:00.000Z' },
+            { modulo_id: 1, data: '2025-01-01' },
+            { modulo_id: 1, data: '2025-01-02' },
+            { modulo_id: 1, data: '2025-02-01' },
+            { modulo_id: 1, data: '2025-02-02' },
         ];
         const period = 'monthly';
         const countMonths = new Set(

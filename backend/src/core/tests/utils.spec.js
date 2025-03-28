@@ -28,4 +28,54 @@ describe('Utils', () => {
         // Then
         expect(original[0].modulo_id).toBe(1);
     });
+
+    it('should get the total value by adding the fields in the list', () => {
+        // Given
+        const items = [{ value: 1 }, { value: 2 }, { value: 3 }];
+
+        // When
+        const result = utils.getTotal(items, 'value');
+
+        // Then
+        expect(result).toEqual(6);
+    });
+
+    it('should get the max value of the field in the list', () => {
+        // Given
+        const items = [{ value: 14 }, { value: 55 }, { value: 33 }];
+
+        // When
+        const result = utils.getMax(items, 'value');
+
+        // Then
+        expect(result).toEqual(55);
+    });
+
+    it('should get the min value of the field in the list', () => {
+        // Given
+        const items = [{ value: 14 }, { value: 7 }, { value: 33 }];
+
+        // When
+        const result = utils.getMin(items, 'value');
+
+        // Then
+        expect(result).toEqual(7);
+    });
+
+    it('should calculate the evapotranspiration given the values', () => {
+        // Given
+        const item = {
+            temperaturaArMedia: 24.3,
+            umidadeArMedia: 67.5,
+            ventoMedia: 9,
+            mediaUv: 21.25,
+            pressaoArMedia: 1013 
+        };
+
+        // When
+        const result = utils.getEvapotranspiration(item);
+
+        // Then
+        expect(result).toBeCloseTo(4.3, 0.1);
+    });
 });

@@ -1,8 +1,8 @@
 const { transformByMonthly, transformByDaily } = require("./period");
 const { copy } = require("./utils");
 
-const transformDataByPeriod = (data, period) => {
-    const result = copy(data);
+const transformDataByPeriod = (items, period) => {
+    const result = copy(items);
     switch(period){
         case 'monthly':
             return transformByMonthly(result);

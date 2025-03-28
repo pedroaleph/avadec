@@ -1,7 +1,7 @@
-const { getEvapotranspiration, getTotal } = require("./utils");
+const { getEvapotranspiration, getTotal, getMax } = require("./utils");
 
-const transformByDaily = (data) => {
-    const result = data.map(item => {
+const transformByDaily = (items) => {
+    const result = items.map(item => {
         item.time = new Date(item.data).getTime();
         item.evapotranspiracao = getEvapotranspiration(item);
 
@@ -11,34 +11,31 @@ const transformByDaily = (data) => {
     return result;
 };
 
-const transformByMonthly = (data) => {
-    const values = [];
-    data.forEach(item => {
-        const date = new Date(item.data);
-        const value = date.getFullYear() + '-' + date.getMonth();
-        if (!values.includes(value)) {
-            values.push(value);
+const transformByMonthly = (items) => {
+    const months = [];
+    items.forEach(item => {
+        const month = item.data.slice(0, 7);
+        if (!months.includes(month)) {
+            months.push(month);
         }
 
-        item.data = date;
-        item.time = date.getTime();
+        item.time = new Date(item.data).getTime();
         item.evapotranspiracao = getEvapotranspiration(item);
     });
     
-    const result = values.map(value => {
-        const [year, month] = value.split('-');
-        const items = data.filter(item => item.data.getFullYear() === parseInt(year) && item.data.getMonth() === parseInt(month));
-        const item = items[0];
-        item.precipitacao = getTotal(items, 'precipitacao');
-        item.evapotranspiracao = getTotal(items, 'evapotranspiracao');
+    const result = months.map(month => {
+        const itemsByMonth = items.filter(item => item.data.startsWith(month));
+        const item = itemsByMonth[0];
+        item.precipitacao = getTotal(itemsByMonth, 'precipitacao');
+        item.evapotranspiracao = getTotal(itemsByMonth, 'evapotranspiracao');
         Object.keys(item).forEach(key => {
             if (key.toLocaleLowerCase().includes('med')) {
-                const length = items.length > 0 ? items.length : 1;
-                item[key] = getTotal(items, key) / length;
+                const length = itemsByMonth.length > 0 ? itemsByMonth.length : 1;
+                item[key] = getTotal(itemsByMonth, key) / length;
             } else if (key.toLocaleLowerCase().includes('max')) {
-                item[key] = items.reduce((max, item) => item[key] > max ? item[key] : max, item[key]);
+                item[key] = getMax(itemsByMonth, key);
             } else if (key.toLocaleLowerCase().includes('min')) {
-                item[key] = items.reduce((min, item) => item[key] < min ? item[key] : min, item[key]);
+                item[key] = getMin(itemsByMonth, key);
             }
         });
 

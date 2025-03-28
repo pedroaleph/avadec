@@ -77,8 +77,8 @@ describe('Service', () => {
             },
             ...stationPipeline,
         ];
-        const data = [{ modulo_id: 2 }, { modulo_id: 1 }];
-        mockCollection.toArray.mockReturnValueOnce(mockSort('modulo_id', data));
+        const items = [{ modulo_id: 2 }, { modulo_id: 1 }];
+        mockCollection.toArray.mockReturnValueOnce(mockSort('modulo_id', items));
 
         // When
         const result = await service.findStations();
@@ -102,8 +102,8 @@ describe('Service', () => {
             },
             ...stationPipeline,
         ];
-        const data = [{ modulo_id: 1 }, { modulo_id: 2 }];
-        mockCollection.toArray.mockReturnValueOnce(mockFind({ id }, data));
+        const items = [{ modulo_id: 1 }, { modulo_id: 2 }];
+        mockCollection.toArray.mockReturnValueOnce(mockFind({ id }, items));
 
         // When
         const result = await service.findOneStation(id);
