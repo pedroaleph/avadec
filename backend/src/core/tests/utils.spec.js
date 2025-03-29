@@ -76,6 +76,6 @@ describe('Utils', () => {
         const result = utils.getEvapotranspiration(item);
 
         // Then
-        expect(result).toBeCloseTo(4.3, 0.1);
+        expect(result).toBeCloseTo(4.3, .1);
     });
 });

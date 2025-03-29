@@ -11,8 +11,8 @@ describe('Daily Data', () => {
     const mockTransform = (_) => {
         const data = copy(_);
         data.map((item) => {
-            item.time = jest.fn().mockReturnThis();
-            item.evapotranspiracao = jest.fn().mockReturnThis();
+            item.time = jest.fn().mockReturnValue(true);
+            item.evapotranspiracao = jest.fn().mockReturnValue(true);
         });
 
         return data;

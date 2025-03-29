@@ -1,4 +1,4 @@
-const { getEvapotranspiration, getTotal, getMax } = require("./utils");
+const { getEvapotranspiration, getTotal, getMax, getMin } = require("./utils");
 
 const transformByDaily = (items) => {
     const result = items.map(item => {
@@ -30,8 +30,7 @@ const transformByMonthly = (items) => {
         item.evapotranspiracao = getTotal(itemsByMonth, 'evapotranspiracao');
         Object.keys(item).forEach(key => {
             if (key.toLocaleLowerCase().includes('med')) {
-                const length = itemsByMonth.length > 0 ? itemsByMonth.length : 1;
-                item[key] = getTotal(itemsByMonth, key) / length;
+                item[key] = getTotal(itemsByMonth, key) / itemsByMonth.length;
             } else if (key.toLocaleLowerCase().includes('max')) {
                 item[key] = getMax(itemsByMonth, key);
             } else if (key.toLocaleLowerCase().includes('min')) {
