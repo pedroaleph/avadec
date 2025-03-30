@@ -16,6 +16,7 @@ const PeriodButtons = ({ period, setPeriod }: Props) => {
                     <button
                         type="button"
                         key={index}
+                        data-testid={'periodButton' + index}
                         className={`btn ${index === period ? 'btn-primary' : 'btn-outline-primary'} ms-2 text-nowrap`}
                         onClick={(e) => setPeriod(index as Period)}
                     >
