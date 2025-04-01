@@ -12,32 +12,16 @@ const Home = () => {
         localStorage.getItem('selected-station-id') ?? ''
     );
     const path = '/stations' + (stationId ? '/' + stationId : '');
-    const [showSidebar, setShowSidebar] = useState(false);
     const [title, setTitle] = useState({ name: 'Estações' });
 
     useEffect(() => {
         location.pathname === '/' && navigate(path);
     }, [navigate, location, path]);
 
-    const handleResize = () => {
-        setShowSidebar(window.innerWidth >= 576);
-    };
-
-    useEffect(() => {
-        handleResize();
-        window.addEventListener('resize', handleResize);
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
     return (
         <div className="d-flex w-100">
             <div className="w-100">
-                <Header
-                    title={title}
-                    menuState={showSidebar}
-                    onChangeMenuState={setShowSidebar}
-                />
+                <Header title={title} />
                 <div className="home-content">
                     <Routes>
                         <Route

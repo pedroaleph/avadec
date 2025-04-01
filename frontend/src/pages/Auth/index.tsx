@@ -17,7 +17,7 @@ const Auth = () => {
 
     return (
         <div className="auth-container col-12 col-sm-8 col-md-6">
-            <Header title={title} showLogos={true} />
+            <Header title={title} />
             <Routes>
                 <Route path="/login" element={<Login />} />
             </Routes>

@@ -2,9 +2,11 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
     path: string;
+    text?: string;
 }
 
-const GoBack = ({ path }: Props) => {
+const GoBack = ({ path, text }: Props) => {
+    const label = text || 'Voltar';
     const navigate = useNavigate();
 
     return (
@@ -13,11 +15,12 @@ const GoBack = ({ path }: Props) => {
                 type="button"
                 className="btn btn-secondary material-icons"
                 onClick={() => navigate(path)}
+                data-testid="go-back-button"
             >
                 keyboard_arrow_left
             </button>
             <span className="text-secondary px-2 fw-bold">
-                Selecionar outra
+                { label }
             </span>
         </div>
     );
