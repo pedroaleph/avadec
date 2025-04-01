@@ -9,7 +9,7 @@ interface Props {
     interval: number[];
 }
 
-const tickFormatter = (period: TimePeriod) => {
+export const tickFormatter = (period: TimePeriod) => {
     return (value: number | string | Date) => {
         const date = new Date(value);
         switch(period) {
@@ -21,7 +21,7 @@ const tickFormatter = (period: TimePeriod) => {
     };
 };
 
-const labelFormatter = (period: TimePeriod) => {
+export const labelFormatter = (period: TimePeriod) => {
     return (value: number | string | Date) => {
         const date = new Date(value);
         switch(period) {
@@ -33,18 +33,18 @@ const labelFormatter = (period: TimePeriod) => {
     };
 };
 
-const formatter = (unit: string) => {
+export const formatter = (unit: string) => {
     return (e: number) => (
-        <>
+        <div data-testid="tooltip-value">
             {e.toFixed(2)}
             <span className="ps-1 unit">
                 {unit}
             </span>
-        </>
+        </div>
     );
 }
 
-const getMax = (stationVar: StationVar, items: DailyData[], maxLimit: number) => {
+export const getMax = (stationVar: StationVar, items: DailyData[], maxLimit: number) => {
     if (cumulativeStationVars.includes(stationVar)) {
         const key = stationVarKey[stationVar];
         const value = items.reduce((max, item) => max > item[key] ? max : item[key], maxLimit);
@@ -79,6 +79,7 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
             </div>
             <ResponsiveContainer width={'100%'} height={'95%'}>
                 <LineChart
+                    data-testid={'chart-' + stationVar}
                     data={data}
                     margin={{
                         top: 0,
