@@ -44,12 +44,12 @@ export const formatter = (unit: string) => {
     );
 }
 
-export const getMax = (stationVar: StationVar, items: DailyData[], maxLimit: number) => {
+export const getMax = (stationVar: StationVar, items: DailyData[], defaultLimit: number): number => {
     if (cumulativeStationVars.includes(stationVar)) {
         const key = stationVarKey[stationVar];
-        const value = items.reduce((max, item) => max > item[key] ? max : item[key], maxLimit);
+        const value = items.reduce((max, item) => max > item[key] ? max : item[key], defaultLimit);
 
-        if (value !== maxLimit) {
+        if (value !== defaultLimit) {
             const truncatedValue = Math.trunc(value);
             const valueLength = truncatedValue.toString().length;
     
@@ -62,7 +62,7 @@ export const getMax = (stationVar: StationVar, items: DailyData[], maxLimit: num
         }
     }
 
-    return maxLimit;
+    return defaultLimit;
 }
 
 const Chart = ({ stationVar, data, period, interval }: Props) => {

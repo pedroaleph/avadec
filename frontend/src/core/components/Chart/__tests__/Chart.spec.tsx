@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Chart, { formatter, labelFormatter, tickFormatter } from '..';
+import Chart, { formatter, getMax, labelFormatter, tickFormatter } from '..';
 import { DailyData } from 'core/utils/models';
 import { stationVarDict } from 'core/utils/constants';
 
@@ -100,7 +100,7 @@ describe('Chart Component', () => {
         expect(result).toEqual('Janeiro de 2025');
     });
 
-    it('should render value with unit', () => {
+    it('should render tooltip with value and unit', () => {
         // Giver
         const unit = 'test';
         const value = 25;
@@ -113,5 +113,31 @@ describe('Chart Component', () => {
         // Then
         expect(result).toBeInTheDocument();
         expect(result).toHaveTextContent('25.00test');
+    });
+
+    it('should get default limit when there is no value greater than the default', () => {
+        // Given
+        const stationVar = 'precipitation';
+        const items = [{ precipitacao: 350 }, { precipitacao: 200 }] as DailyData[];
+        const defaultLimit = 400;
+
+        // When
+        const result = getMax(stationVar, items, defaultLimit);
+
+        // Then
+        expect(result).toEqual(defaultLimit);
+    });
+
+    it('should get the value greater rounded when the default is not the greater', () => {
+        // Given
+        const stationVar = 'precipitation';
+        const items = [{ precipitacao: 350 }, { precipitacao: 450 }] as DailyData[];
+        const defaultLimit = 400;
+
+        // When
+        const result = getMax(stationVar, items, defaultLimit);
+
+        // Then
+        expect(result).toEqual(500);
     });
 });
