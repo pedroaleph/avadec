@@ -14,7 +14,7 @@ interface Props {
     setHeaderTitle: (value: { name: string, period?: string }) => void;
 }
 
-const getStartByPeriod = (period: number, endDate: Date | string) => {
+export const getStartByPeriod = (period: number, endDate: Date | string) => {
     const date = new Date(endDate);
     switch(period) {
         case 0:
@@ -114,12 +114,12 @@ const StationSelected = ({
                     <PeriodButtons period={period} setPeriod={setPeriod} />
                 </div>
             </div>
-            <div className={isLoading ? 'd-block pt-5 mt-5' : 'd-none'}>
+            <div className={isLoading ? 'd-block pt-5 mt-5' : 'd-none'} data-testid='display-loading'>
                 <div className="position-relative">
                     <Loading />
                 </div>
             </div>
-            <div className={isLoading ? 'd-none' : 'pt-2 px-3 station-container'}>
+            <div className={isLoading ? 'd-none' : 'pt-2 px-3 station-container'} data-testid='display-dashboard'>
                 { station && !!data?.length ? (
                     <Dashboard period={timePeriod} data={data} interval={interval} />
                 ) : (
