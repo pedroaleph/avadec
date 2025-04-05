@@ -26,7 +26,7 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
     const [lat, setLat] = useState(2.8307);
     const [zoom, setZoom] = useState(6.0);
     const [mapStyle, setMapStyle] = useState('streets-v11');
-    const [stations, setStations] = useState<Station[]>();
+    const [stations, setStations] = useState<Station[]>([]);
     const [markers, setMarkes] = useState<mapboxgl.Marker[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -71,7 +71,7 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
     }, [map]);
 
     useEffect(() => {
-        if (!map || stations) {
+        if (!map || stations.length) {
             return;
         }
 
@@ -137,11 +137,24 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
         }
     }, [map, stations, markers, navigate]);
 
+    const onChangeStation = (station: Station) => {
+        if (map) {
+            const longitude = parseFloat(station.longitude);
+            const latitude = parseFloat(station.latitude);
+
+            map.flyTo({
+                center: [longitude, latitude],
+                essential: true,
+                zoom: 8.15,
+            });
+
+            document.getElementById(`station-${station.modulo_id}`)?.click();
+        }
+    };
+
     return (
         <div className="stations-container">
-            {stations && (
-                <Filters stations={stations} map={map} markers={markers} isLoading={isLoading} />
-            )}
+            <Filters stations={stations} onChange={onChangeStation} isLoading={isLoading} />
             <div className="w-100 position-relative h-100">
                 <div className="position-absolute bottom-0 top-0 start-0 end-0">
                     <div
