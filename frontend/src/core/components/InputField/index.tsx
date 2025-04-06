@@ -14,6 +14,7 @@ const InputField = ({ id, label, placeholder, value, setValue }: Props) => {
             </label>
             <input
                 id={id}
+                data-testid={id}
                 type="text"
                 className="form-control"
                 placeholder={placeholder}

@@ -35,9 +35,10 @@ const Filters = ({ stations, onChange, isLoading }: Props) => {
                     width: isVisible ? 350 : 30,
                     position: isAbsolute ? 'absolute' : 'relative',
                 }}
+                data-testid="filters-container"
             >
                 {isVisible && (
-                    <div className="px-3 py-3 filters-content">
+                    <div className="px-3 py-3 filters-content" data-testid="filters-content">
                         <div className="mb-3 border border-primary pt-3 px-2">
                             <InputField
                                 id='station-filter'
@@ -47,7 +48,7 @@ const Filters = ({ stations, onChange, isLoading }: Props) => {
                                 setValue={setSearchStation}
                             />
                             <div className="filter-stations">
-                                <div className={isLoading ? 'd-block position-relative' : 'd-none'}>
+                                <div className={isLoading ? 'd-block position-relative' : 'd-none'} data-testid="display-loading">
                                     <Loading />
                                 </div>
                                 { 
@@ -61,6 +62,7 @@ const Filters = ({ stations, onChange, isLoading }: Props) => {
                                             className="btn btn-outline-primary btn-filter mx-0"
                                             key={station.modulo_id}
                                             onClick={() => onChange(station)}
+                                            data-testid="station-button"
                                         >
                                             <span>{station.nome_modulo}</span>
                                         </button>
@@ -74,6 +76,7 @@ const Filters = ({ stations, onChange, isLoading }: Props) => {
                 type="button"
                 className="btn btn-expand material-icons"
                 onClick={toggleSidebar}
+                data-testid="toggle-sidebar"
             >
                 keyboard_double_arrow_right
             </button>
