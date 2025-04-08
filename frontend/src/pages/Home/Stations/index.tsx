@@ -1,33 +1,26 @@
 import './styles.scss';
 import { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
+import MapboxGL from 'core/utils/mapbox-gl';
 import request from 'core/utils/request';
 import { Station } from 'core/utils/models';
 import { useNavigate } from 'react-router-dom';
 import Filters from './Filters';
-
-interface MapboxGLWithWorker {
-    workerClass?: typeof Worker;
-}
-
-(mapboxgl as MapboxGLWithWorker).workerClass =
-    require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default; // eslint-disable-line
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_KEY ?? '';
 
 interface Props {
     setStationId: (value: string) => void;
     setHeaderTitle: (value: { name: string; period?: string }) => void;
 }
 
+const initialCenter: [number, number] = [-60.67312, 2.8307];
+const styles = ['streets-v11', 'dark-v10', 'satellite-v9'];
+
 const Stations = ({ setStationId, setHeaderTitle }: Props) => {
     const mapContainer = useRef<HTMLDivElement | null>(null);
-    const [map, setMap] = useState<mapboxgl.Map | null>(null);
-    const [lng, setLng] = useState(-60.67312);
-    const [lat, setLat] = useState(2.8307);
     const [zoom, setZoom] = useState(6.0);
-    const [mapStyle, setMapStyle] = useState('streets-v11');
+    const [lng, setLng] = useState(initialCenter[0]);
+    const [lat, setLat] = useState(initialCenter[1]);
+    const [mapStyle, setMapStyle] = useState(0);
     const [stations, setStations] = useState<Station[]>([]);
-    const [markers, setMarkes] = useState<mapboxgl.Marker[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -39,122 +32,57 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
     }, [setStationId, setHeaderTitle]);
 
     useEffect(() => {
-        if (map) return;
+        if (!mapContainer.current) return;
 
-        if (mapContainer.current) {
-            const map = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: 'mapbox://styles/mapbox/streets-v11',
-                center: [lng, lat],
-                zoom: 1.0,
-            });
-
-            map.flyTo({
-                zoom: 8.15,
-                essential: true,
-            });
-            setMap(map);
-        }
-    }, [lat, lng, zoom, map, mapStyle, stations?.length]);
+        MapboxGL.createMap({
+            container: mapContainer.current,
+            center: initialCenter,
+            zoom: 1.0,
+            style: styles[0],
+            onMove: (lng, lat, zoom) => {
+                setLng(lng);
+                setLat(lat);
+                setZoom(zoom);
+            },
+        });
+    }, []);
 
     useEffect(() => {
-        map && map.setStyle(`mapbox://styles/mapbox/${mapStyle}`);
-    }, [mapStyle, map]);
+        MapboxGL.changeStyle(styles[mapStyle]);
+    }, [mapStyle]);
 
     useEffect(() => {
-        map &&
-            map.on('move', () => {
-                setLng(parseFloat(map.getCenter().lng.toFixed(4)));
-                setLat(parseFloat(map.getCenter().lat.toFixed(4)));
-                setZoom(parseFloat(map.getZoom().toFixed(2)));
-            });
-    }, [map]);
-
-    useEffect(() => {
-        if (!map || stations.length) {
-            return;
-        }
-
         setIsLoading(true);
         request
             .get('/stations')
-            .then((res) => {
-                setStations(res.data);
-            })
-            .catch(() => {
-                setStations([]);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, [stations, map]);
+            .then((res) => setStations(res.data))
+            .catch(() => setStations([]))
+            .finally(() => setIsLoading(false));
+    }, []);
 
     useEffect(() => {
-        if (markers.length) {
-            return;
-        }
-        if (map && stations?.length) {
-            const markers = stations.map((station) => {
-                const el = document.createElement('div');
-                el.className = `marker marker-${station.online}`;
-                el.id = `station-${station.modulo_id}`;
+        if (!stations.length) return;
 
-                const lng = parseFloat(station.longitude);
-                const lat = parseFloat(station.latitude);
-
-                const marker = new mapboxgl.Marker({ element: el })
-                    .setLngLat([lng, lat])
-                    .setPopup(
-                        new mapboxgl.Popup().setHTML(`
-                            <h6 class="fw-bold mb-0">
-                                ${station.nome_modulo}
-                            </h6>
-                            <button type="button" id="btn-station" class="btn btn-primary material-icons p-1">
-                                chevron_right
-                            </button>
-                        `)
-                    )
-                    .addTo(map);
-
-                marker.getElement().addEventListener('click', () => {
-                    setTimeout(() => {
-                        const btn = document.getElementById('btn-station');
-                        btn?.addEventListener('click', () => {
-                            localStorage.setItem(
-                                'selected-station-id',
-                                station.modulo_id.toString()
-                            );
-
-                            navigate(`/stations/${station.modulo_id}`);
-                        });
-                    }, 0);
-                });
-
-                return marker;
-            });
-
-            setMarkes(markers);
-        }
-    }, [map, stations, markers, navigate]);
+        MapboxGL.createMarkers(stations, (station) => {
+            localStorage.setItem(
+                'selected-station-id',
+                station.modulo_id.toString()
+            );
+            navigate(`/stations/${station.modulo_id}`);
+        });
+    }, [stations, navigate]);
 
     const onChangeStation = (station: Station) => {
-        if (map) {
-            const longitude = parseFloat(station.longitude);
-            const latitude = parseFloat(station.latitude);
-
-            map.flyTo({
-                center: [longitude, latitude],
-                essential: true,
-                zoom: 8.15,
-            });
-
-            document.getElementById(`station-${station.modulo_id}`)?.click();
-        }
+        MapboxGL.flyToStation(station);
     };
 
     return (
         <div className="stations-container">
-            <Filters stations={stations} onChange={onChangeStation} isLoading={isLoading} />
+            <Filters
+                stations={stations}
+                onChange={onChangeStation}
+                isLoading={isLoading}
+            />
             <div className="w-100 position-relative h-100">
                 <div className="position-absolute bottom-0 top-0 start-0 end-0">
                     <div
@@ -168,21 +96,21 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
                         <button
                             type="button"
                             className="map-streets btn btn-offline"
-                            onClick={() => setMapStyle('streets-v11')}
+                            onClick={() => setMapStyle(0)}
                         >
                             Estradas
                         </button>
                         <button
                             type="button"
                             className="map-dark btn btn-secondary"
-                            onClick={() => setMapStyle('dark-v10')}
+                            onClick={() => setMapStyle(1)}
                         >
                             Escuro
                         </button>
                         <button
                             type="button"
                             className="map-satellite btn btn-embrapa"
-                            onClick={() => setMapStyle('satellite-v9')}
+                            onClick={() => setMapStyle(2)}
                         >
                             Satélite
                         </button>
