@@ -88,8 +88,9 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
                     <div
                         ref={mapContainer}
                         className="map-container border border-1 border-primary"
+                        data-testid="map-container"
                     />
-                    <div className="map-coordinates">
+                    <div className="map-coordinates" data-testid="map-coordinates">
                         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
                     </div>
                     <div className="map-style">
@@ -97,6 +98,7 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
                             type="button"
                             className="map-streets btn btn-offline"
                             onClick={() => setMapStyle(0)}
+                            data-testid="map-streets-button"
                         >
                             Estradas
                         </button>
@@ -104,6 +106,7 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
                             type="button"
                             className="map-dark btn btn-secondary"
                             onClick={() => setMapStyle(1)}
+                            data-testid="map-dark-button"
                         >
                             Escuro
                         </button>
@@ -111,6 +114,7 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
                             type="button"
                             className="map-satellite btn btn-embrapa"
                             onClick={() => setMapStyle(2)}
+                            data-testid="map-satellite-button"
                         >
                             Satélite
                         </button>

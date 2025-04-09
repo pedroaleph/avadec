@@ -54,7 +54,12 @@ class MapboxGL {
             this.map.on('move', () => {
                 const center = this.map.getCenter();
                 const zoom = this.map.getZoom();
-                onMove(parseFloat(center.lng.toFixed(4)), parseFloat(center.lat.toFixed(4)), parseFloat(zoom.toFixed(2)));
+                
+                onMove(
+                    parseFloat(center.lng.toFixed(4)),
+                    parseFloat(center.lat.toFixed(4)),
+                    parseFloat(zoom.toFixed(2))
+                );
             });
         }
 
