@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import Stations from '..';
 
 const mockSetStationId = jest.fn();
@@ -20,15 +20,24 @@ jest.mock('../Filters', () => () => (
 jest.mock('core/utils/mapbox-gl');
 
 describe('Stations Component', () => {
-    it.skip('should render component', async () => {
+    const spyStorage = jest.spyOn(Storage.prototype, 'removeItem');
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+    
+    it('should render component', async () => {
         // Given
-        mockGet.mockResolvedValue({ data: [{ modulo_id: 1 }] });
-        render(
-            <Stations
-                setStationId={mockSetStationId}
-                setHeaderTitle={mockSetHeaderTitle}
-            />
-        );
+        mockGet.mockResolvedValueOnce({ data: [{ modulo_id: 1 }] });
+        // eslint-disable-next-line testing-library/no-unnecessary-act
+        await act(async () => { 
+            render(
+                <Stations
+                    setStationId={mockSetStationId}
+                    setHeaderTitle={mockSetHeaderTitle}
+                />
+            )
+        });
 
         // When
         const filters = screen.getByTestId('mock-filters');
@@ -39,6 +48,7 @@ describe('Stations Component', () => {
         const mapSatelliteButton = screen.getByTestId('map-satellite-button');
 
         // Then
+        expect(spyStorage).toHaveBeenCalled();
         expect(filters).toBeInTheDocument();
         expect(mapContainer).toBeInTheDocument();
         expect(mapCoorninates).toBeInTheDocument();
