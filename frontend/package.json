@@ -29,8 +29,18 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "src/App.tsx",
+      "src/index.tsx",
+      "src/reportWebVitals.ts",
+      "src/core/utils/*",
+      "src/pages/Home/Stations/utils.ts",
+      "src/core/components/Sidebar"
+    ]
   },
   "eslintConfig": {
     "extends": [
