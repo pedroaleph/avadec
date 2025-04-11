@@ -1,6 +1,6 @@
 // core/utils/mapbox-gl.ts
 import mapboxgl from 'mapbox-gl';
-import { Station } from './models';
+import { MapStypeType, Station } from './models';
 
 interface MapboxGLWithWorker {
     workerClass?: typeof Worker;
@@ -14,6 +14,12 @@ interface MapConfig {
     onMove?: (lng: number, lat: number, zoom: number) => void;
     onStationClick?: (station: Station) => void;
 }
+
+const mapStyle = {
+    streets: 'streets-v11',
+    dark: 'dark-v10',
+    satellite: 'satellite-v9'
+};
 
 class MapboxGL {
     private static initialized = false;
@@ -66,8 +72,8 @@ class MapboxGL {
         return this.map;
     }
 
-    static changeStyle(style: string) {
-        this.map?.setStyle(`mapbox://styles/mapbox/${style}`);
+    static changeStyle(style: MapStypeType) {
+        this.map?.setStyle(`mapbox://styles/mapbox/${mapStyle[style]}`);
     }
 
     static createMarkers(stations: Station[], onClick: (station: Station) => void) {

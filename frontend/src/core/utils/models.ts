@@ -103,3 +103,5 @@ export type StationType = 0 | 1 | 2;
 export type Period = 0 | 1 | 2 | 3;
 
 export type TimePeriod = 'hourly' | 'daily' | 'weekly' | 'biweekly' | 'monthly' | 'yearly';
+
+export type MapStypeType = 'streets' | 'dark' | 'satellite';

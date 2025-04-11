@@ -2,7 +2,7 @@ import './styles.scss';
 import { useEffect, useRef, useState } from 'react';
 import MapboxGL from 'core/utils/mapbox-gl';
 import request from 'core/utils/request';
-import { Station } from 'core/utils/models';
+import { MapStypeType, Station } from 'core/utils/models';
 import { useNavigate } from 'react-router-dom';
 import Filters from './Filters';
 
@@ -12,14 +12,12 @@ interface Props {
 }
 
 const initialCenter: [number, number] = [-60.67312, 2.8307];
-const styles = ['streets-v11', 'dark-v10', 'satellite-v9'];
 
 const Stations = ({ setStationId, setHeaderTitle }: Props) => {
     const mapContainer = useRef<HTMLDivElement | null>(null);
     const [zoom, setZoom] = useState(6.0);
     const [lng, setLng] = useState(initialCenter[0]);
     const [lat, setLat] = useState(initialCenter[1]);
-    const [mapStyle, setMapStyle] = useState(0);
     const [stations, setStations] = useState<Station[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -38,7 +36,6 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
             container: mapContainer.current,
             center: initialCenter,
             zoom: 1.0,
-            style: styles[0],
             onMove: (lng, lat, zoom) => {
                 setLng(lng);
                 setLat(lat);
@@ -46,10 +43,6 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
             },
         });
     }, []);
-
-    useEffect(() => {
-        MapboxGL.changeStyle(styles[mapStyle]);
-    }, [mapStyle]);
 
     useEffect(() => {
         setIsLoading(true);
@@ -76,6 +69,10 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
         MapboxGL.flyToStation(station);
     };
 
+    const onChangeMapStyle = (value: MapStypeType) => {
+        MapboxGL.changeStyle(value);
+    };
+
     return (
         <div className="stations-container">
             <Filters
@@ -97,7 +94,7 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
                         <button
                             type="button"
                             className="map-streets btn btn-offline"
-                            onClick={() => setMapStyle(0)}
+                            onClick={() => onChangeMapStyle('streets')}
                             data-testid="map-streets-button"
                         >
                             Estradas
@@ -105,7 +102,7 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
                         <button
                             type="button"
                             className="map-dark btn btn-secondary"
-                            onClick={() => setMapStyle(1)}
+                            onClick={() => onChangeMapStyle('dark')}
                             data-testid="map-dark-button"
                         >
                             Escuro
@@ -113,7 +110,7 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
                         <button
                             type="button"
                             className="map-satellite btn btn-embrapa"
-                            onClick={() => setMapStyle(2)}
+                            onClick={() => onChangeMapStyle('satellite')}
                             data-testid="map-satellite-button"
                         >
                             Satélite
