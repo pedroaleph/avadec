@@ -1,6 +1,22 @@
-import { cumulativeStationVars, fullMonths, months, stationVarDict, stationVarKey } from "core/utils/constants";
-import { DailyData, StationVar, TimePeriod } from "core/utils/models";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+    cumulativeStationVars,
+    fullMonths,
+    months,
+    stationVarDict,
+    stationVarKey,
+} from 'core/utils/constants';
+import { DailyData, StationVar, TimePeriod } from 'core/utils/models';
+import { useState } from 'react';
+import {
+    CartesianGrid,
+    Legend,
+    Line,
+    LineChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from 'recharts';
 
 interface Props {
     stationVar: StationVar;
@@ -12,11 +28,15 @@ interface Props {
 export const tickFormatter = (period: TimePeriod) => {
     return (value: number | string | Date) => {
         const date = new Date(value);
-        switch(period) {
-            case "monthly":
+        switch (period) {
+            case 'monthly':
                 return months[date.getMonth()] + '/' + date.getFullYear();
             default:
-                return date.getDate() + '/' + (date.getMonth() + 1).toString().padStart(2, '0');
+                return (
+                    date.getDate() +
+                    '/' +
+                    (date.getMonth() + 1).toString().padStart(2, '0')
+                );
         }
     };
 };
@@ -24,9 +44,11 @@ export const tickFormatter = (period: TimePeriod) => {
 export const labelFormatter = (period: TimePeriod) => {
     return (value: number | string | Date) => {
         const date = new Date(value);
-        switch(period) {
-            case "monthly":
-                return fullMonths[date.getMonth()] + ' de ' + date.getFullYear();
+        switch (period) {
+            case 'monthly':
+                return (
+                    fullMonths[date.getMonth()] + ' de ' + date.getFullYear()
+                );
             default:
                 return date.toLocaleDateString();
         }
@@ -35,27 +57,32 @@ export const labelFormatter = (period: TimePeriod) => {
 
 export const formatter = (unit: string) => {
     return (e: number) => (
-        <div data-testid="tooltip-value">
+        <div data-testid="tooltip-value" className="text-white">
             {e.toFixed(2)}
-            <span className="ps-1 unit">
-                {unit}
-            </span>
+            <span className="ps-1 unit">{unit}</span>
         </div>
     );
-}
+};
 
-export const getMax = (stationVar: StationVar, items: DailyData[], defaultLimit: number): number => {
+export const getMax = (
+    stationVar: StationVar,
+    items: DailyData[],
+    defaultLimit: number
+): number => {
     if (cumulativeStationVars.includes(stationVar)) {
         const key = stationVarKey[stationVar];
-        const value = items.reduce((max, item) => max > item[key] ? max : item[key], defaultLimit);
+        const value = items.reduce(
+            (max, item) => (max > item[key] ? max : item[key]),
+            defaultLimit
+        );
 
         if (value !== defaultLimit) {
             const truncatedValue = Math.trunc(value);
             const valueLength = truncatedValue.toString().length;
-    
+
             const powerOfTen = Math.pow(10, valueLength - 1);
             const integerPart = Math.trunc(truncatedValue / powerOfTen);
-    
+
             const max = integerPart * powerOfTen + powerOfTen;
 
             return max;
@@ -63,21 +90,79 @@ export const getMax = (stationVar: StationVar, items: DailyData[], defaultLimit:
     }
 
     return defaultLimit;
-}
+};
+
+const CustomLegend = (value: StationVar) => {
+    const station = stationVarDict[value];
+
+    return (
+        <div className="d-flex justify-content-center align-items-center unit">
+            {station.keys.map((key, index) => (
+                <div
+                    key={index}
+                    className="d-flex justify-content align-items-center mx-2"
+                >
+                    <svg width="24" height="10" style={{ marginRight: 8 }}>
+                        <line
+                            x1="0"
+                            y1="5"
+                            x2="24"
+                            y2="5"
+                            stroke={station.color}
+                            strokeWidth="3"
+                            strokeDasharray={key.strokeDasharray || '0'}
+                        />
+                    </svg>
+                    <span className="legend">{key.label}</span>
+                </div>
+            ))}
+        </div>
+    );
+};
 
 const Chart = ({ stationVar, data, period, interval }: Props) => {
-    const { label, limits, unit, keys } = stationVarDict[stationVar];
+    const { label, limits, unit, color } = stationVarDict[stationVar];
     const min = limits[0];
     const max = getMax(stationVar, data, limits[1]);
     const tickCount = data.length > 7 ? data.length / 2 : data.length;
+    const [keys, setKeys] = useState(stationVarDict[stationVar].keys);
+
+    const toggleKeyDisplay = (index: number) => {
+        setKeys((prevKeys) =>
+            prevKeys.map((key, i) =>
+                i === index ? { ...key, isDisplayed: !key.isDisplayed } : key
+            )
+        );
+    };
 
     return (
         <div className="w-100 card-base shadow chart-container mt-2 ps-0">
             <div className="mb-1 position-relative">
                 <h6 className="fw-bold fs-6 mb-0">{label}</h6>
-                <span className="ps-1 unit position-absolute top-0 end-0">{unit}</span>
+                <span className="ps-1 unit position-absolute top-0 end-0">
+                    {unit}
+                </span>
             </div>
-            <ResponsiveContainer width={'100%'} height={'95%'}>
+            <div className="d-flex justify-content-end unit">
+                {keys.length > 1 &&
+                    keys.map((key, index) => (
+                        <div
+                            className="mb-1 ms-2 d-flex align-items-center"
+                            key={index}
+                        >
+                            <input
+                                type="checkbox"
+                                checked={key.isDisplayed}
+                                onChange={() => toggleKeyDisplay(index)}
+                            />
+                            <span className="ms-1">{key.label}</span>
+                        </div>
+                    ))}
+            </div>
+            <ResponsiveContainer
+                width={'100%'}
+                height={keys.length > 1 ? '82%' : '92%'}
+            >
                 <LineChart
                     data-testid={'chart-' + stationVar}
                     data={data}
@@ -92,34 +177,37 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                         type="number"
                         dataKey="time"
                         domain={interval}
-                        tickFormatter={tickFormatter(period)} 
+                        tickFormatter={tickFormatter(period)}
                         tickCount={tickCount}
                     />
                     <YAxis type="number" domain={[min, max]} />
                     <CartesianGrid strokeDasharray="3 3" />
+                    <Legend content={() => CustomLegend(stationVar)} />
                     <Tooltip
                         labelFormatter={labelFormatter(period)}
                         formatter={formatter(unit)}
                         separator=": "
                     />
-                    {
-                        keys.map((key, index) => (
+                    {keys
+                        .filter((key) => key.isDisplayed)
+                        .map((key, index) => (
                             <Line
                                 key={index}
                                 type="linear"
                                 name={key.label}
                                 dataKey={key.name}
-                                stroke={key.color}
+                                stroke={color}
                                 strokeWidth={3}
                                 dot={false}
                                 activeDot={{ r: 0 }}
+                                strokeDasharray={key.strokeDasharray}
+                                isAnimationActive={false}
                             />
-                        ))
-                    }
+                        ))}
                 </LineChart>
             </ResponsiveContainer>
         </div>
     );
-}
+};
 
 export default Chart;
