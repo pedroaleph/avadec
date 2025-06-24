@@ -119,7 +119,7 @@ const StationSelected = ({
                     <Loading />
                 </div>
             </div>
-            <div className={isLoading ? 'd-none' : 'pt-2 px-3 station-container'} data-testid='display-dashboard'>
+            <div className={isLoading ? 'd-none' : 'station-container'} data-testid='display-dashboard'>
                 { station && !!data?.length ? (
                     <Dashboard period={timePeriod} data={data} interval={interval} />
                 ) : (
