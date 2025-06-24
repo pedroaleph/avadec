@@ -25,6 +25,14 @@ interface Props {
     interval: number[];
 }
 
+interface Config {
+    name: string;
+    label: string;
+    color: string;
+    isDisplayed: boolean;
+    strokeDasharray: string | undefined;
+}
+
 export const tickFormatter = (period: TimePeriod) => {
     return (value: number | string | Date) => {
         const date = new Date(value);
@@ -92,12 +100,11 @@ export const getMax = (
     return defaultLimit;
 };
 
-const CustomLegend = (value: StationVar) => {
-    const station = stationVarDict[value];
+const CustomLegend = (color: string, configs: Config[]) => {
 
     return (
         <div className="d-flex justify-content-center align-items-center unit">
-            {station.keys.map((key, index) => (
+            {configs.filter(config => config.isDisplayed).map((config, index) => (
                 <div
                     key={index}
                     className="d-flex justify-content align-items-center mx-2"
@@ -108,12 +115,12 @@ const CustomLegend = (value: StationVar) => {
                             y1="5"
                             x2="24"
                             y2="5"
-                            stroke={station.color}
+                            stroke={color}
                             strokeWidth="3"
-                            strokeDasharray={key.strokeDasharray || '0'}
+                            strokeDasharray={config.strokeDasharray || '0'}
                         />
                     </svg>
-                    <span className="legend">{key.label}</span>
+                    <span className="legend">{config.label}</span>
                 </div>
             ))}
         </div>
@@ -147,7 +154,7 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                 {keys.length > 1 &&
                     keys.map((key, index) => (
                         <div
-                            className="mb-1 ms-2 d-flex align-items-center"
+                            className="mb-1 ms-2 ps-1 d-flex align-items-center"
                             key={index}
                         >
                             <input
@@ -161,7 +168,7 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
             </div>
             <ResponsiveContainer
                 width={'100%'}
-                height={keys.length > 1 ? '82%' : '92%'}
+                height={keys.length > 1 ? '85%' : '92%'}
             >
                 <LineChart
                     data-testid={'chart-' + stationVar}
@@ -182,7 +189,7 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                     />
                     <YAxis type="number" domain={[min, max]} />
                     <CartesianGrid strokeDasharray="3 3" />
-                    <Legend content={() => CustomLegend(stationVar)} />
+                    <Legend content={() => CustomLegend(color, keys)} />
                     <Tooltip
                         labelFormatter={labelFormatter(period)}
                         formatter={formatter(unit)}

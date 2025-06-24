@@ -92,7 +92,7 @@ export interface HourlyData {
     wind: number,
 }
 
-export type StationVar = 'precipitation' | 'airTemperature' | 'airHumidity' | 'airPressure' | 'soilTemperature' | 'soilHumidity' | 'radiaion' | 'wind' | 'evapotranspiration';
+export type StationVar = 'precipitation' | 'airTemperature' | 'airHumidity' | 'airPressure' | 'soilTemperature' | 'soilHumidity' | 'radiation' | 'wind' | 'evapotranspiration';
 
 export type StationVarKey = 'precipitacao' | 'evapotranspiracao';
 

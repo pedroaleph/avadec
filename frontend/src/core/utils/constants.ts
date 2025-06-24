@@ -71,7 +71,7 @@ export const stationVarDict = {
                 label: 'Mínima',
                 color: '#E69595',
                 isDisplayed: true,
-                strokeDasharray: "3 5",
+                strokeDasharray: "2 5",
             },
         ]
     },
@@ -100,7 +100,7 @@ export const stationVarDict = {
                 label: 'Mínima',
                 color: '#95E6C2',
                 isDisplayed: true,
-                strokeDasharray: "3 5",
+                strokeDasharray: "2 5",
             }
         ]
     },
@@ -129,7 +129,7 @@ export const stationVarDict = {
                 label: 'Mínima',
                 color: '#E6D895',
                 isDisplayed: true,
-                strokeDasharray: "3 5",
+                strokeDasharray: "2 5",
             }
         ]
     },
@@ -158,7 +158,7 @@ export const stationVarDict = {
                 label: 'Mínima',
                 color: '#E695D6',
                 isDisplayed: true,
-                strokeDasharray: "3 5",
+                strokeDasharray: "2 5",
             }
         ]
     },
@@ -187,11 +187,11 @@ export const stationVarDict = {
                 label: 'Mínima',
                 color: '#95E6E6',
                 isDisplayed: true,
-                strokeDasharray: "3 5",
+                strokeDasharray: "2 5",
             }
         ]
     },
-    radiaion: {
+    radiation: {
         label: "Nível UV",
         limits: [0, 4000],
         unit: "mW/cm²",
@@ -216,7 +216,7 @@ export const stationVarDict = {
                 label: 'Mínima',
                 color: '#E6BFA6',
                 isDisplayed: true,
-                strokeDasharray: "3 5",
+                strokeDasharray: "2 5",
             }
         ]
     },
@@ -245,7 +245,7 @@ export const stationVarDict = {
                 label: 'Mínima',
                 color: '#9595E6',
                 isDisplayed: true,
-                strokeDasharray: "3 5",
+                strokeDasharray: "2 5",
             }
         ]
     },
@@ -273,14 +273,14 @@ export const stationVariables: StationVar[] = [
     'airPressure',
     'soilTemperature',
     'soilHumidity',
-    'radiaion',
+    'radiation',
     'wind',
-    'evapotranspiration'
+    'evapotranspiration',
 ];
 
 export const cumulativeStationVars: StationVar[] = ['precipitation', 'evapotranspiration'];
 
 export const stationVarKey: { [key: string]: StationVarKey } = {
     precipitation: 'precipitacao',
-    evapotranspiration: 'evapotranspiracao'
+    evapotranspiration: 'evapotranspiracao',
 }
