@@ -6,7 +6,8 @@ import {
     stationVarKey,
 } from 'core/utils/constants';
 import { DailyData, StationVar, TimePeriod } from 'core/utils/models';
-import { useState } from 'react';
+import { toSvg } from 'html-to-image';
+import { useRef, useState } from 'react';
 import {
     CartesianGrid,
     Legend,
@@ -101,28 +102,29 @@ export const getMax = (
 };
 
 const CustomLegend = (color: string, configs: Config[]) => {
-
     return (
         <div className="d-flex justify-content-center align-items-center unit">
-            {configs.filter(config => config.isDisplayed).map((config, index) => (
-                <div
-                    key={index}
-                    className="d-flex justify-content align-items-center mx-2"
-                >
-                    <svg width="24" height="10" style={{ marginRight: 8 }}>
-                        <line
-                            x1="0"
-                            y1="5"
-                            x2="24"
-                            y2="5"
-                            stroke={color}
-                            strokeWidth="3"
-                            strokeDasharray={config.strokeDasharray || '0'}
-                        />
-                    </svg>
-                    <span className="legend">{config.label}</span>
-                </div>
-            ))}
+            {configs
+                .filter((config) => config.isDisplayed)
+                .map((config, index) => (
+                    <div
+                        key={index}
+                        className="d-flex justify-content align-items-center mx-2"
+                    >
+                        <svg width="24" height="10" style={{ marginRight: 8 }}>
+                            <line
+                                x1="0"
+                                y1="5"
+                                x2="24"
+                                y2="5"
+                                stroke={color}
+                                strokeWidth="3"
+                                strokeDasharray={config.strokeDasharray || '0'}
+                            />
+                        </svg>
+                        <span className="legend">{config.label}</span>
+                    </div>
+                ))}
         </div>
     );
 };
@@ -133,6 +135,8 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
     const max = getMax(stationVar, data, limits[1]);
     const tickCount = data.length > 7 ? data.length / 2 : data.length;
     const [keys, setKeys] = useState(stationVarDict[stationVar].keys);
+    const chartRef = useRef(null);
+    const [isDownloading, setIsDownloading] = useState(false);
 
     const toggleKeyDisplay = (index: number) => {
         setKeys((prevKeys) =>
@@ -142,8 +146,32 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
         );
     };
 
+    const handleDownload = () => {
+        if (!chartRef.current) return;
+
+        setIsDownloading(true);
+
+        toSvg(chartRef.current)
+            .then((dataUrl) => {
+                const link = document.createElement('a');
+                const now = Date.now();
+                link.download = now + '-' + label + '.svg';
+                link.href = dataUrl;
+                link.click();
+            })
+            .catch((err) => {
+                console.error('Não foi possivel baixar o gráfico.', err);
+            })
+            .finally(() => {
+                setIsDownloading(false);
+            });
+    };
+
     return (
-        <div className="w-100 card-base shadow chart-container mt-2 ps-0">
+        <div
+            className="w-100 card-base shadow chart-container mt-2 ps-0 position-relative"
+            ref={chartRef}
+        >
             <div className="mb-1 position-relative">
                 <h6 className="fw-bold fs-6 mb-0">{label}</h6>
                 <span className="ps-1 unit position-absolute top-0 end-0">
@@ -213,6 +241,15 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                         ))}
                 </LineChart>
             </ResponsiveContainer>
+            <button
+                type="button"
+                className="btn p-0 material-icons material-symbols-outlined text-primary position-absolute end-0 bottom-0 m-2 border-0"
+                onClick={handleDownload}
+                disabled={isDownloading}
+                title='Download do gráfico'
+            >
+                download
+            </button>
         </div>
     );
 };

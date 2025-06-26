@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.0.9",
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
+    "html-to-image": "^1.11.13",
     "jwt-decode": "^3.1.2",
     "mapbox-gl": "^2.14.0",
     "react": "^18.2.0",
