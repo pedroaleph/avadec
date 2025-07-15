@@ -5,7 +5,7 @@ import {
     stationVarDict,
     stationVarKey,
 } from 'core/utils/constants';
-import { DailyData, StationVar, TimePeriod } from 'core/utils/models';
+import { DailyData, StationVar, StationVarKey, TimePeriod } from 'core/utils/models';
 import { toSvg } from 'html-to-image';
 import { useRef, useState } from 'react';
 import {
@@ -13,6 +13,7 @@ import {
     Legend,
     Line,
     LineChart,
+    ReferenceLine,
     ResponsiveContainer,
     Tooltip,
     XAxis,
@@ -32,6 +33,14 @@ interface Config {
     color: string;
     isDisplayed: boolean;
     strokeDasharray: string | undefined;
+}
+
+interface TickConfig {
+    x: number;
+    y: number;
+    min: number;
+    max: number;
+    payload: { value: number };
 }
 
 export const tickFormatter = (period: TimePeriod) => {
@@ -129,14 +138,61 @@ const CustomLegend = (color: string, configs: Config[]) => {
     );
 };
 
+const CustomTick = ({ x, y, payload, min, max }: TickConfig) => {
+  const value = payload.value;
+
+  let fill = '#666';
+  if (value === min) {
+    fill = '#00BFC4';
+  } else if (value === max) {
+    fill = '#FF5733';
+  }
+
+  return (
+    <text x={x} y={y + 4} textAnchor="end" fill={fill} fontSize={12}>
+        {value}
+    </text>
+  );
+};
+
+const downloadCSV = (data: DailyData[], stationVar: StationVar) => {
+    if (!data || !data.length) return;
+    const keys = stationVarDict[stationVar].keys.map(key => key.name as StationVarKey);
+
+    const csv = [
+        'data,' + keys.join(','),
+        ...data.map(row => {
+            const date = new Date(row.data).toLocaleDateString() + ',';
+            const values = keys.map(k => row[k]).join(',');
+
+            return  date + values;
+        }),
+    ].join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const now = Date.now();
+    const filename = now + '-' + stationVarDict[stationVar].label + '.csv';
+
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.display = 'none';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+
 const Chart = ({ stationVar, data, period, interval }: Props) => {
-    const { label, limits, unit, color } = stationVarDict[stationVar];
+    const { label, limits, unit, color, reference, yticks } = stationVarDict[stationVar];
     const min = limits[0];
     const max = getMax(stationVar, data, limits[1]);
     const tickCount = data.length > 7 ? data.length / 2 : data.length;
     const [keys, setKeys] = useState(stationVarDict[stationVar].keys);
     const chartRef = useRef(null);
-    const [isDownloading, setIsDownloading] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const toggleKeyDisplay = (index: number) => {
         setKeys((prevKeys) =>
@@ -149,8 +205,7 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
     const handleDownload = () => {
         if (!chartRef.current) return;
 
-        setIsDownloading(true);
-
+        setIsOpen(false);
         toSvg(chartRef.current)
             .then((dataUrl) => {
                 const link = document.createElement('a');
@@ -162,16 +217,41 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
             .catch((err) => {
                 console.error('Não foi possivel baixar o gráfico.', err);
             })
-            .finally(() => {
-                setIsDownloading(false);
-            });
     };
+
+    const handleDownloadCSV = () => {
+        if (!data || !data.length) return;
+
+        setIsOpen(false);
+        downloadCSV(data, stationVar);
+    }
 
     return (
         <div
-            className="w-100 card-base shadow chart-container mt-2 ps-0 position-relative"
+            className="w-100 card-base shadow chart-container mt-2 ps-0 position-relative z-0"
             ref={chartRef}
+            onMouseOver={() => setIsOpen(isOpen)}
+            onMouseOut={() => setIsOpen(false)}
         >
+            <button type='button' className='btn p-1 material-icons position-absolute start-0 top-0 ms-2 mt-2 z-1' onClick={() => setIsOpen(!isOpen)}>menu</button>
+            {isOpen && (
+                <div className='d-flex flex-column border rounded-1 bg-white position-absolute top-0 start-0 ms-2 mt-5 z-1 w-auto py-1'>
+                    <button
+                        type="button"
+                        className="btn m-0 px-2 py-1 btn-outline-primary text-start border-0 rounded-0"
+                        onClick={handleDownload}
+                    >
+                        Baixar imagem SVG
+                    </button>
+                    <button
+                        type="button"
+                        className="btn m-0 px-2 py-1 btn-outline-primary text-start border-0 rounded-0"
+                        onClick={handleDownloadCSV}
+                    >
+                        Baixar CSV
+                    </button>
+                </div>
+            )}
             <div className="mb-1 position-relative">
                 <h6 className="fw-bold fs-6 mb-0">{label}</h6>
                 <span className="ps-1 unit position-absolute top-0 end-0">
@@ -215,7 +295,7 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                         tickFormatter={tickFormatter(period)}
                         tickCount={tickCount}
                     />
-                    <YAxis type="number" domain={[min, max]} />
+                    <YAxis type="number" domain={[min, max]} ticks={yticks} tick={(props) => <CustomTick x={props.x} y={props.y} payload={props.payload} min={reference.min} max={reference.max} />} />
                     <CartesianGrid strokeDasharray="3 3" />
                     <Legend content={() => CustomLegend(color, keys)} />
                     <Tooltip
@@ -239,17 +319,20 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                                 isAnimationActive={false}
                             />
                         ))}
+                        <ReferenceLine
+                            y={reference.min}
+                            stroke="#33B5E5"
+                            strokeDasharray='5 5'
+                            label={{ value: 'Mín. esperado', position: 'right', fill: '#33B5E5', fontSize: 12 }}
+                        />
+                        <ReferenceLine
+                            y={reference.max}
+                            stroke="#FFBB33"
+                            strokeDasharray='5 5'
+                            label={{ value: 'Máx. esperado', position: 'right', fill: '#FFBB33', fontSize: 12 }}
+                        />
                 </LineChart>
             </ResponsiveContainer>
-            <button
-                type="button"
-                className="btn p-0 material-icons material-symbols-outlined text-primary position-absolute end-0 bottom-0 m-2 border-0"
-                onClick={handleDownload}
-                disabled={isDownloading}
-                title='Download do gráfico'
-            >
-                download
-            </button>
         </div>
     );
 };

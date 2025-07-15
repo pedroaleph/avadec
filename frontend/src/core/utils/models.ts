@@ -94,7 +94,7 @@ export interface HourlyData {
 
 export type StationVar = 'precipitation' | 'airTemperature' | 'airHumidity' | 'airPressure' | 'soilTemperature' | 'soilHumidity' | 'radiation' | 'wind' | 'evapotranspiration';
 
-export type StationVarKey = 'precipitacao' | 'evapotranspiracao';
+export type StationVarKey = 'precipitacao' | 'evapotranspiracao' | 'pressaoArMedia' | 'pressaoArMaxima' | 'pressaoArMinima' | 'temperaturaArMedia' | 'temperaturaArMaxima' | 'temperaturaArMinima' | 'temperaturaSoloMedia' | 'temperaturaSoloMaxima' | 'temperaturaSoloMinima' | 'umidadeArMedia' | 'umidadeArMaxima' | 'umidadeArMinima' | 'umidadeSoloMedia' | 'umidadeSoloMaxima' | 'umidadeSoloMinima' | 'ventoMedia' | 'ventoMaxima' | 'ventoMinima' | 'mediaUv' | 'maxUv' | 'minUv';
 
 export type Month = 'jan' | 'fev' | 'mar' | 'abr' | 'mai' | 'jul' | 'ago' | 'set' | 'out' | 'nov' | 'dez';
 
