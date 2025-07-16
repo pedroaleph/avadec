@@ -318,23 +318,7 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                         formatter={formatter(unit)}
                         separator=": "
                     />
-                    {keys
-                        .filter((key) => key.isDisplayed)
-                        .map((key, index) => (
-                            <Line
-                                key={index}
-                                type="linear"
-                                name={key.label}
-                                dataKey={key.name}
-                                stroke={color}
-                                strokeWidth={3}
-                                dot={false}
-                                activeDot={{ r: 0 }}
-                                strokeDasharray={key.strokeDasharray}
-                                isAnimationActive={false}
-                            />
-                        ))}
-                        {!isCumulativeAndByMonthly && <>
+                    {!isCumulativeAndByMonthly && <>
                             <ReferenceLine
                                 y={reference.min}
                                 stroke="#33B5E5"
@@ -362,6 +346,22 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                                 fillOpacity={0.2}
                             />
                         </>}
+                    {keys
+                        .filter((key) => key.isDisplayed)
+                        .map((key, index) => (
+                            <Line
+                                key={index}
+                                type="linear"
+                                name={key.label}
+                                dataKey={key.name}
+                                stroke={color}
+                                strokeWidth={3}
+                                dot={false}
+                                activeDot={{ r: 0 }}
+                                strokeDasharray={key.strokeDasharray}
+                                isAnimationActive={false}
+                            />
+                        ))}
                 </LineChart>
             </ResponsiveContainer>
         </div>
