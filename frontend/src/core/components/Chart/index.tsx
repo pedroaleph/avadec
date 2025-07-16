@@ -194,6 +194,7 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
     const [keys, setKeys] = useState(stationVarDict[stationVar].keys);
     const chartRef = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
+    const isCumulativeAndByMonthly = period === 'monthly' && cumulativeStationVars.includes(stationVar);
 
     const toggleKeyDisplay = (index: number) => {
         setKeys((prevKeys) =>
@@ -296,7 +297,20 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                         tickFormatter={tickFormatter(period)}
                         tickCount={tickCount}
                     />
-                    <YAxis type="number" domain={[min, max]} ticks={yticks} tick={(props) => <CustomTick x={props.x} y={props.y} payload={props.payload} min={reference.min} max={reference.max} />} />
+                    <YAxis
+                        type="number"
+                        domain={[min, max]}
+                        ticks={isCumulativeAndByMonthly ? undefined : yticks}
+                        tick={isCumulativeAndByMonthly ? undefined : (props) => 
+                            <CustomTick
+                                x={props.x}
+                                y={props.y}
+                                payload={props.payload}
+                                min={reference.min}
+                                max={reference.max}
+                            />
+                        }
+                    />
                     <CartesianGrid strokeDasharray="3 3" />
                     <Legend content={() => CustomLegend(color, keys)} />
                     <Tooltip
@@ -320,32 +334,34 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                                 isAnimationActive={false}
                             />
                         ))}
-                        <ReferenceLine
-                            y={reference.min}
-                            stroke="#33B5E5"
-                            strokeDasharray='5 5'
-                            label={{ value: 'Mín. esperado', position: 'right', fill: '#33B5E5', fontSize: 12 }}
-                        />
-                        <ReferenceLine
-                            y={reference.max}
-                            stroke="#FFBB33"
-                            strokeDasharray='5 5'
-                            label={{ value: 'Máx. esperado', position: 'right', fill: '#FFBB33', fontSize: 12 }}
-                        />
-                        <ReferenceArea
-                            y1={reference.min}
-                            y2={limits[0]}
-                            strokeOpacity={0}
-                            fill="#33B5E5"
-                            fillOpacity={0.2}
-                        />
-                        <ReferenceArea
-                            y1={limits[1]}
-                            y2={reference.max}
-                            strokeOpacity={0}
-                            fill="#FFBB33"
-                            fillOpacity={0.2}
-                        />
+                        {!isCumulativeAndByMonthly && <>
+                            <ReferenceLine
+                                y={reference.min}
+                                stroke="#33B5E5"
+                                strokeDasharray='5 5'
+                                label={{ value: 'Mín. esperado', position: 'right', fill: '#33B5E5', fontSize: 12 }}
+                            />
+                            <ReferenceLine
+                                y={reference.max}
+                                stroke="#FFBB33"
+                                strokeDasharray='5 5'
+                                label={{ value: 'Máx. esperado', position: 'right', fill: '#FFBB33', fontSize: 12 }}
+                            />
+                            <ReferenceArea
+                                y1={reference.min}
+                                y2={limits[0]}
+                                strokeOpacity={0}
+                                fill="#33B5E5"
+                                fillOpacity={0.2}
+                            />
+                            <ReferenceArea
+                                y1={limits[1]}
+                                y2={reference.max}
+                                strokeOpacity={0}
+                                fill="#FFBB33"
+                                fillOpacity={0.2}
+                            />
+                        </>}
                 </LineChart>
             </ResponsiveContainer>
         </div>
