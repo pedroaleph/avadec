@@ -15,17 +15,19 @@ describe('Dasboard Component', () => {
         const items = [{ modulo_id: 0 }] as DailyData[];
         render(<Dashboard period={period} interval={interval} data={items} />);
 
-        // When
-        const charts = screen.getAllByTestId('mock-chart');
+        setTimeout(() => {
+            // When
+            const charts = screen.getAllByTestId('mock-chart');
 
-        // Then
-        expect(charts.length).toEqual(stationVariables.length);
-        charts.forEach((chart, index) => {
-            expect(chart).toBeInTheDocument();
-            expect(chart).toHaveTextContent(`"stationVar":"${stationVariables[index]}"`);
-            expect(chart).toHaveTextContent(`"period":"${period}"`);
-            expect(chart).toHaveTextContent(`"interval":${JSON.stringify(interval)}`);
-            expect(chart).toHaveTextContent(`"data":${JSON.stringify(items)}`);
+            // Then
+            expect(charts.length).toEqual(stationVariables.length);
+            charts.forEach((chart, index) => {
+                expect(chart).toBeInTheDocument();
+                expect(chart).toHaveTextContent(`"stationVar":"${stationVariables[index]}"`);
+                expect(chart).toHaveTextContent(`"period":"${period}"`);
+                expect(chart).toHaveTextContent(`"interval":${JSON.stringify(interval)}`);
+                expect(chart).toHaveTextContent(`"data":${JSON.stringify(items)}`);
+            });
         });
     });
 });
