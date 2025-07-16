@@ -337,14 +337,14 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                             y2={limits[0]}
                             strokeOpacity={0}
                             fill="#33B5E5"
-                            fillOpacity={0.08}
+                            fillOpacity={0.2}
                         />
                         <ReferenceArea
                             y1={limits[1]}
                             y2={reference.max}
                             strokeOpacity={0}
                             fill="#FFBB33"
-                            fillOpacity={0.08}
+                            fillOpacity={0.2}
                         />
                 </LineChart>
             </ResponsiveContainer>
