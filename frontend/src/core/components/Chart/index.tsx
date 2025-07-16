@@ -13,6 +13,7 @@ import {
     Legend,
     Line,
     LineChart,
+    ReferenceArea,
     ReferenceLine,
     ResponsiveContainer,
     Tooltip,
@@ -330,6 +331,20 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                             stroke="#FFBB33"
                             strokeDasharray='5 5'
                             label={{ value: 'Máx. esperado', position: 'right', fill: '#FFBB33', fontSize: 12 }}
+                        />
+                        <ReferenceArea
+                            y1={reference.min}
+                            y2={limits[0]}
+                            strokeOpacity={0}
+                            fill="#33B5E5"
+                            fillOpacity={0.08}
+                        />
+                        <ReferenceArea
+                            y1={limits[1]}
+                            y2={reference.max}
+                            strokeOpacity={0}
+                            fill="#FFBB33"
+                            fillOpacity={0.08}
                         />
                 </LineChart>
             </ResponsiveContainer>

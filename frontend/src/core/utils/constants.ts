@@ -293,10 +293,10 @@ export const stationVarDict = {
         label: 'Evapotranspiração',
         limits: [0, 100],
         reference: {
-            min: 0,
+            min: 2,
             max: 8,
         },
-        yticks: [0, 8, 25, 50, 75, 100],
+        yticks: [0, 2, 8, 25, 50, 75, 100],
         unit: 'mm',
         color: '#999999',
         keys: [
