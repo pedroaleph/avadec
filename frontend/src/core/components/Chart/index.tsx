@@ -334,13 +334,13 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
                             />
                             <ReferenceArea
                                 y1={reference.min}
-                                y2={limits[0]}
+                                y2={min}
                                 strokeOpacity={0}
                                 fill="#33B5E5"
                                 fillOpacity={0.2}
                             />
                             <ReferenceArea
-                                y1={limits[1]}
+                                y1={max}
                                 y2={reference.max}
                                 strokeOpacity={0}
                                 fill="#FFBB33"
