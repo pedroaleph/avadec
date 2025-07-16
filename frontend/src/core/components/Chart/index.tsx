@@ -190,6 +190,7 @@ const Chart = ({ stationVar, data, period, interval }: Props) => {
     const { label, limits, unit, color, reference, yticks } = stationVarDict[stationVar];
     const min = limits[0];
     const max = getMax(stationVar, data, limits[1]);
+    yticks[yticks.length - 1] = max;
     const tickCount = data.length > 7 ? data.length / 2 : data.length;
     const [keys, setKeys] = useState(stationVarDict[stationVar].keys);
     const chartRef = useRef(null);
