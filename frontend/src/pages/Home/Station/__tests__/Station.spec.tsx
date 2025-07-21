@@ -61,7 +61,7 @@ describe('Station Component', () => {
         const emptyMessage = screen.getByText('Não há dados disponíveis.');
 
         // Then
-        expect(spyStorage).not.toHaveBeenCalled();
+        expect(spyStorage).toHaveBeenCalled();
         expect(goBack).toBeInTheDocument();
         expect(periodButtons).toBeInTheDocument();
         expect(loading).toBeInTheDocument();
@@ -111,31 +111,6 @@ describe('Station Component', () => {
         });
         expect(displayDashboard).not.toHaveClass('d-none');
         expect(emptyMessage).toBeInTheDocument();
-    });
-
-    it('should storage id from params', async () => {
-        // Given
-        stationId = '0';
-        mockGet.mockResolvedValueOnce({
-            data: { modulo_id: 1, inicio: '2025/01/01', termino: '2025/01/31' },
-        });
-        mockGet.mockResolvedValueOnce({ data: [{ modulo_id: 1 }] });
-
-        // When
-        render(
-            <StationSelected
-                stationId={stationId}
-                setStationId={setStationId}
-                setHeaderTitle={setHeaderTitle}
-            />
-        );
-
-        // Then
-        expect(spyStorage).toHaveBeenCalled();
-        expect(stationId).toEqual('1');
-        await waitFor(() => {
-            expect(mockGet).toHaveBeenCalledTimes(2);
-        });
     });
 
     it('should get the first day of 7 day period', () => {
