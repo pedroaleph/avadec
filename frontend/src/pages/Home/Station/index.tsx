@@ -1,6 +1,5 @@
 import './styles.scss';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import { DailyData, Period, Station, TimePeriod } from 'core/utils/models';
 import request from 'core/utils/request';
@@ -42,7 +41,6 @@ const StationSelected = ({
     setStationId,
     setHeaderTitle,
 }: Props) => {
-    const params = useParams();
     const [station, setStation] = useState<Station>();
     const [data, setData] = useState<DailyData[]>();
     const [isStationLoaded, setIsStationLoaded] = useState(false);
@@ -52,11 +50,8 @@ const StationSelected = ({
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (params.id && params.id !== stationId) {
-            setStationId(params.id);
-            localStorage.setItem('selected-station-id', params.id);
-        }
-    }, [params, stationId, setStationId]);
+        localStorage.setItem('selected-station-id', stationId);
+    }, [stationId, setStationId]);
 
     useEffect(() => {
         stationId &&

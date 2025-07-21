@@ -3,7 +3,6 @@ import Stations from '..';
 import userEvent from '@testing-library/user-event';
 import { Station } from 'core/utils/models';
 
-const mockSetStationId = jest.fn();
 const mockSetHeaderTitle = jest.fn();
 const mockGet = jest.fn();
 const mockNavigate = jest.fn();
@@ -48,7 +47,6 @@ describe('Stations Component', () => {
         await act(async () => { 
             render(
                 <Stations
-                    setStationId={mockSetStationId}
                     setHeaderTitle={mockSetHeaderTitle}
                 />
             )
@@ -82,7 +80,6 @@ describe('Stations Component', () => {
         await act(async () => { 
             render(
                 <Stations
-                    setStationId={mockSetStationId}
                     setHeaderTitle={mockSetHeaderTitle}
                 />
             )
@@ -107,7 +104,6 @@ describe('Stations Component', () => {
         await act(async () => { 
             render(
                 <Stations
-                    setStationId={mockSetStationId}
                     setHeaderTitle={mockSetHeaderTitle}
                 />
             )
@@ -132,7 +128,6 @@ describe('Stations Component', () => {
         await act(async () => { 
             render(
                 <Stations
-                    setStationId={mockSetStationId}
                     setHeaderTitle={mockSetHeaderTitle}
                 />
             )
@@ -158,7 +153,6 @@ describe('Stations Component', () => {
         await act(async () => { 
             render(
                 <Stations
-                    setStationId={mockSetStationId}
                     setHeaderTitle={mockSetHeaderTitle}
                 />
             )
