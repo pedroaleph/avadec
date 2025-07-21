@@ -1,5 +1,5 @@
 import Header from 'core/components/Header';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Stations from './Stations';
 import { useEffect, useState } from 'react';
 import StationSelected from './Station';
@@ -8,8 +8,9 @@ import './styles.scss';
 const Home = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const params = useParams();
     const [stationId, setStationId] = useState(
-        localStorage.getItem('selected-station-id') ?? ''
+        params.id || localStorage.getItem('selected-station-id') || ''
     );
     const path = '/stations' + (stationId ? '/' + stationId : '');
     const [title, setTitle] = useState({ name: 'Estações' });
@@ -28,7 +29,6 @@ const Home = () => {
                             path="/stations"
                             element={
                                 <Stations
-                                    setStationId={setStationId}
                                     setHeaderTitle={setTitle}
                                 />
                             }

@@ -7,13 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import Filters from './Filters';
 
 interface Props {
-    setStationId: (value: string) => void;
     setHeaderTitle: (value: { name: string; period?: string }) => void;
 }
 
 const initialCenter: [number, number] = [-60.67312, 2.8307];
 
-const Stations = ({ setStationId, setHeaderTitle }: Props) => {
+const Stations = ({ setHeaderTitle }: Props) => {
     const mapContainer = useRef<HTMLDivElement | null>(null);
     const [zoom, setZoom] = useState(6.0);
     const [lng, setLng] = useState(initialCenter[0]);
@@ -25,9 +24,8 @@ const Stations = ({ setStationId, setHeaderTitle }: Props) => {
 
     useEffect(() => {
         localStorage.removeItem('selected-station-id');
-        setStationId('');
         setHeaderTitle({ name: 'Estações' });
-    }, [setStationId, setHeaderTitle]);
+    }, [setHeaderTitle]);
 
     useEffect(() => {
         if (!mapContainer.current) return;
