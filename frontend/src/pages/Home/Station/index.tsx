@@ -6,6 +6,7 @@ import request from 'core/utils/request';
 import GoBack from 'core/components/GoBack';
 import PeriodButtons from 'core/components/PeriodButtons';
 import Loading from 'core/components/Loading';
+import { useParams } from 'react-router-dom';
 
 interface Props {
     stationId: string;
@@ -48,10 +49,15 @@ const StationSelected = ({
     const [timePeriod, setTimePeriod]= useState<TimePeriod>('daily');
     const [interval, setInterval] = useState<number[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const params = useParams();
 
     useEffect(() => {
+        if (!stationId) {
+            setStationId(params.id || '');
+        }
+        
         localStorage.setItem('selected-station-id', stationId);
-    }, [stationId, setStationId]);
+    }, [stationId, setStationId, params]);
 
     useEffect(() => {
         stationId &&
